@@ -10,14 +10,9 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 
-mongoose
-  .connect(process.env.DATABASE)
-  .then((res) => {
-    console.log('Database connected');
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+mongoose.connect(process.env.DATABASE).then((res) => {
+  console.log('Database connected');
+});
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
