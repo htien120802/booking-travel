@@ -19,11 +19,15 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const adminRouter = require('./routes/adminRoutes');
 
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', [
+  path.join(__dirname, 'views'),
+  path.join(__dirname, 'views', 'admin'),
+]);
 
 // 1) GLOBAL MIDDLEWARES
 // Serving static files
@@ -37,6 +41,14 @@ app.use(
     contentSecurityPolicy: false,
   }),
 );
+
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Content-Security-Policy',
+    "font-src 'self' https://js.stripe.com https://fonts.gstatic.com https://cdnjs.cloudflare.com",
+  );
+  return next();
+});
 
 // Development logging
 if (process.env.NODE_ENV.trim() === 'development') {
@@ -84,6 +96,7 @@ app.use((req, res, next) => {
 
 // 3) ROUTES
 app.use('/', viewRouter);
+app.use('/admin', adminRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);

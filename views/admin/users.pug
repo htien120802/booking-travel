@@ -1,0 +1,58 @@
+extends ../base
+
+mixin navItem(link, text, icon, active)
+  li(class=`${active ? 'side-nav--active' : ''}`)
+    a(href=`${link}`)
+      svg
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
+      | #{text}
+
+block content
+  main.main
+    .user-view
+      nav.user-view__menu
+        ul.side-nav
+          +navItem('#', 'Settings', 'settings')
+          +navItem('/my-tours', 'My bookings', 'briefcase')
+          +navItem('#', 'My reviews', 'star')
+          +navItem('#', 'Billing', 'credit-card')
+
+        - if (user.role === 'admin')
+          .admin-nav
+            h5.admin-nav__heading Admin
+            ul.side-nav
+              +navItem('#', 'Manage tours', 'map')
+              +navItem('#', 'Manage users', 'users', true)
+              +navItem('#', 'Manage reviews', 'star')
+              +navItem('#', 'Manage bookings', 'briefcase')
+
+      .user-view__content
+        .user-view__form-container(style="text-align:center;")
+          h2.heading-secondary.ma-bt-md Users List
+          
+        table.content__table
+            thead
+              tr
+                th(style="width: 5%;").cell-center Photo
+                th(style="width: 30%") Name
+                th(style="width: 30%") Email
+                th(style="width: 10%;").cell-center Role
+                th(style="width: 10%;").cell-center Active
+                th(style="width: 15%;").cell-center Action
+            tbody
+              tr
+                td.cell-center
+                  img.nav__user-img(src="https://picsum.photos/536/354" alt=`Photo of ${user.name}`)
+                td Sally
+                td sally@gmail.com
+                td.cell-center Admin
+                td.cell-center
+                  span.material-symbols-outlined toggle_off
+                  span.material-symbols-outlined.active-user toggle_on
+
+                td.cell-center.action-container
+                  a.btn-action.btn-action--green
+                    span.material-symbols-outlined edit
+                  a(href='/admin/users/add').btn-action.btn-action--red
+                    span.material-symbols-outlined delete
+

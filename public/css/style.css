@@ -1322,3 +1322,121 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+.content__table {
+  border-collapse: collapse;
+  font-size: 12pt;
+  min-width: 400px;
+  max-width: 120rem;
+  width: 95%;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin: 0 auto
+
+}
+
+.content__table thead tr {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(#7dd56f),
+    to(#28b487)
+  );
+  background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.content__table th,
+.content__table td {
+  padding: 12px 15px;
+}
+
+.content__table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content__table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content__table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.content__table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+.btn-action,
+.btn-action:link,
+.btn-action:visited {
+  font-size: 1.2rem;
+  padding: 1rem 1.2rem;
+  border-radius: 3rem;
+  text-transform: uppercase;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  font-weight: 400;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /*Add later when we use this for the button in form*/
+  border: none;
+  cursor: pointer;
+}
+
+.btn-action:hover {
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-action:active {
+  -webkit-transform: translateY(-1px);
+  transform: translateY(-1px);
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-action:focus {
+  outline: none;
+  background-color: #2e864b;
+}
+
+.btn-action--green {
+  color: #2e864b;
+}
+
+.btn-action--red {
+  color: rgb(214, 0, 0)
+
+}
+
+.action-container {
+  display: flex;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+.active-user {
+  color:#55c57a
+}
+
+.label-radio-button {
+  font-size: 1.6rem;
+  margin-right: 4rem;
+}
+
+.radio-button {
+  margin-right: 1rem;
+}
