@@ -2,10 +2,12 @@
 // import keys from '../../config/keys';
 
 export const displayMap = (locations) => {
-  mapboxgl.accessToken = keys.mapBoxAccessToken;
+  mapboxgl.accessToken =
+    'pk.eyJ1IjoiY2ljZXJvdGhvbWEiLCJhIjoiY2tmMzZsbTEwMDA5MjJybGZwaWM2YnRkeiJ9.Ph2iTxWF2xwIQTIYOc0Yuw';
   var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/rasedmia/ck3cmgrsx1qa61cpiuonp0dja',
+    //style: 'mapbox://styles/rasedmia/ck3cmgrsx1qa61cpiuonp0dja',
+    style: 'mapbox://styles/mapbox/light-v10',
     scrollZoom: {
       ctrl: true,
     },

@@ -4,6 +4,7 @@ html
     block head
       meta(charset='UTF-8')
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
+      meta(http-equiv="Content-Security-Policy" content="font-src 'self' https://js.stripe.com https://fonts.gstatic.com;")
       link(rel='stylesheet' href='/css/style.css')
       link(rel='shortcut icon' type='image/png' href='https://github.com/lgope/Natours/blob/master/public/img/logo-green-round.png?raw=true')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
@@ -23,4 +24,7 @@ html
 
     script(src='/js/mapbox.js')
     script(src='https://js.stripe.com/v3/')
+    script(src='https://js.stripe.com/v3/fingerprinted/js/vendor-f5b413ae35580931db57945ba21649cb.js')
+    script(src='https://js.stripe.com/v3/fingerprinted/js/checkout-app-init-a5a0faa0dfbc3c19f6ffe2b9e1dc6b6e.js')
+    //- script(scr='/js/stripe/v3.js')
     script(src='/js/bundle.js')
