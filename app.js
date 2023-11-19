@@ -21,6 +21,12 @@ const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
+const AdminBro = require('admin-bro');
+const options = require('./admin-panel/admin.options');
+const buildAdminRouter = require('./admin-panel/admin.router');
+const admin = new AdminBro(options);
+const router = buildAdminRouter(admin);
+
 const app = express();
 
 app.set('view engine', 'pug');
@@ -101,6 +107,9 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
+
+const authController = require('./controllers/authController');
+app.use(admin.options.rootPath, authController.protect, authController.restrictTo('admin'), router);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
