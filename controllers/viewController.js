@@ -1,16 +1,18 @@
 const Tour = require('../models/tourModel');
+const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const User = require('../models/userModel');
 
-exports.getOverview = catchAsync( async (req, res, next) => {
-// 1) Get tour data from collection
+exports.getOverview = catchAsync(async (req, res, next) => {
+  // 1) Get tour data from collection
   const tours = await Tour.find();
 
   // 2) Build template
   // 3) Render that template using tour data from 1)
   res.status(200).render('overview', {
     title: 'All Tours',
-    tours
+    tours,
   });
 });
 
@@ -42,6 +44,19 @@ exports.getSingupForm = (req, res) => {
 exports.getLoginForm = (req, res) => {
   res.status(200).render('login', {
     title: 'Log into your account',
+  });
+};
+
+exports.getForgetPasswordForm = (req, res) => {
+  res.status(200).render('forgetpassword', {
+    title: 'Forget password',
+  });
+};
+
+exports.getResetPasswordForm = (req, res) => {
+  res.status(200).render('resetpassword', {
+    title: 'Forget password',
+    resetToken: req.params.resetToken,
   });
 };
 
@@ -91,4 +106,3 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     user: updatedUser,
   });
 });
-

@@ -1221,7 +1221,8 @@ body {
   margin: 0 auto;
 }
 
-.login-form {
+.login-form,
+.forget-password-form {
   margin: 0 auto;
   max-width: 55rem;
   background-color: #fff;
@@ -1321,6 +1322,23 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+.singup-form, .reset-password-form {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#forget-password {
+  float: right;
+  font-size: medium;
+  font-weight: 500;
+  color: #000;
+  text-decoration-line: none;
+}
+#forget-password:hover {
+  color: #55c57a;
+  cursor: pointer;
 }
 
 .content__table {
