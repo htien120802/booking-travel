@@ -12,7 +12,7 @@ block content
     .user-view
       nav.user-view__menu
         ul.side-nav
-          +navItem('#', 'Settings', 'settings')
+          +navItem('/me', 'Settings', 'settings')
           +navItem('/my-tours', 'My bookings', 'briefcase')
           +navItem('#', 'My reviews', 'star')
           +navItem('#', 'Billing', 'credit-card')
@@ -22,52 +22,91 @@ block content
             h5.admin-nav__heading Admin
             ul.side-nav
               +navItem('#', 'Manage tours', 'map')
-              +navItem('#', 'Manage users', 'users', true)
+              +navItem('/admin/users', 'Manage users', 'users', true)
               +navItem('#', 'Manage reviews', 'star')
               +navItem('#', 'Manage bookings', 'briefcase')
 
       .user-view__content
         .user-view__form-container
-          .div(style="text-align:center;")
-            h2.heading-secondary.ma-bt-md Edit user
+          h2.heading-secondary.ma-bt-md Edit user
           
-          form.form.form-user-edit-data
+          //- WITHOUT API
+          //- form.form.form-user-data(action='/submit-user-data' method='POST' enctype='multipart/form-data')
+          
+          //- WITH API
+          form.form.form-user-data-admin
+            input#user-id(type="hidden" value=`${userEdit._id}`)
             .form__group
               label.form__label(for='name') Name
-              input#name.form__input(type='text', value=`${user.name}`, required, name='name')
+              input#name.form__input(type='text', value=`${userEdit.name}`, required, name='name')
             .form__group.ma-bt-md
               label.form__label(for='email') Email address
-              input#email.form__input(type='email', value=`${user.email}`, required, name='email')
+              input#email.form__input(type='email', value=`${userEdit.email}`, required, name='email')
             .form__group.form__photo-upload
-              img.form__user-photo(src=`/img/users/${user.photo}`, alt='User photo')
+              img.form__user-photo(src=`/img/users/${userEdit.photo}`, alt='User photo')
               input.form__upload(type='file', accept='image/*', id='photo', name='photo')
               label(for='photo') Choose new photo
-            .form__group
-                label.form__label(for='role') Role
-                label.label-radio-button
-                    input.radio-button(type='radio' name='role' id='user' value='user' checked=user.role === 'user')
-                    | User
-                label.label-radio-button
-                    input.radio-button(type='radio' name='role' id='guide' value='guide' checked=user.role === 'guide')
-                    | Guide
-                label.label-radio-button
-                    input.radio-button(type='radio' name='role' id='lead-guide' value='lead-guide' checked=user.role === 'lead-guide')
-                    | Lead Guide
-                label.label-radio-button
-                    input.radio-button(type='radio' name='role' id='admin' value='admin' checked=user.role === 'admin')
-                    | Admin
-            //- Lúc ánh xạ ra thì đã bỏ qua active nên không hiển thị được
-            .form__group
-                label.form__label(for='status') Status
-                label.label-radio-button
-                    input.radio-button(type='radio' name='status' id='active' value='active' checked=(user.active === true))
-                    | Active
-                label.label-radio-button
-                    input.radio-button(type='radio' name='status' id='inactive' value='inactive' checked=(user.active === false))
-                    | Inactive
-
+              
             .form__group.right
-              button.btn.btn--small.btn--green Save
-    script.
-        console.log(JSON.parse('!{JSON.stringify(user)}'));
+              button.btn.btn--small.btn--green Update
+              
+        .line &nbsp;
+        
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Change password
+          form.form.form-user-password-admin
+            input#user-id(type="hidden" value=`${userEdit._id}`)
+            .form__group
+              label.form__label(for='password') New password
+              input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+            .form__group.ma-bt-lg
+              label.form__label(for='password-confirm') Confirm password
+              input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+            .form__group.right
+              button.btn.btn--small.btn--green.btn--save-password Save password
+
+    //-   .user-view__content
+    //-     .user-view__form-container
+    //-       .div(style="text-align:center;")
+    //-         h2.heading-secondary.ma-bt-md Edit user
+          
+    //-       form.form.form-user-edit-data
+    //-         .form__group
+    //-           label.form__label(for='name') Name
+    //-           input#name.form__input(type='text', value=`${userEdit.name}`, required, name='name')
+    //-         .form__group.ma-bt-md
+    //-           label.form__label(for='email') Email address
+    //-           input#email.form__input(type='email', value=`${userEdit.email}`, required, name='email')
+    //-         .form__group.form__photo-upload
+    //-           img.form__user-photo(src=`/img/users/${userEdit.photo}`, alt='User photo')
+    //-           input.form__upload(type='file', accept='image/*', id='photo', name='photo')
+    //-           label(for='photo') Choose new photo
+    //-         .form__group
+    //-             label.form__label(for='role') Role
+    //-             label.label-radio-button
+    //-                 input.radio-button(type='radio' name='role' id='user' value='user' checked=userEdit.role=== 'user')
+    //-                 | User
+    //-             label.label-radio-button
+    //-                 input.radio-button(type='radio' name='role' id='guide' value='guide' checked=userEdit.role=== 'guide')
+    //-                 | Guide
+    //-             label.label-radio-button
+    //-                 input.radio-button(type='radio' name='role' id='lead-guide' value='lead-guide' checked=userEdit.role=== 'lead-guide')
+    //-                 | Lead Guide
+    //-             label.label-radio-button
+    //-                 input.radio-button(type='radio' name='role' id='admin' value='admin' checked=userEdit.role=== 'admin')
+    //-                 | Admin
+    //-         //- Lúc ánh xạ ra thì đã bỏ qua active nên không hiển thị được
+    //-         .form__group
+    //-             label.form__label(for='status') Status
+    //-             label.label-radio-button
+    //-                 input.radio-button(type='radio' name='status' id='active' value='active' checked=(userEdit.active === true || userEdit.active === undefine))
+    //-                 | Active
+    //-             label.label-radio-button
+    //-                 input.radio-button(type='radio' name='status' id='inactive' value='inactive' checked=(userEdit.active === false))
+    //-                 | Inactive
+
+    //-         .form__group.right
+    //-           button.btn.btn--small.btn--green Save
+    //- script.
+    //-     console.log(JSON.parse('!{JSON.stringify(user)}'));
 

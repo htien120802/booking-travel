@@ -27,6 +27,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no tour with that name.', 404));
   }
 
+  console.log(tour.reviews);
   // 2) Build template
   // 3) Render template using data from 1)
   res.status(200).render('tour', {
@@ -104,5 +105,24 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
   res.status(200).render('account', {
     title: 'Your account',
     user: updatedUser,
+  });
+});
+
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings
+  const users = await User.find({ role: { $ne: 'admin' } });
+
+  res.status(200).render('admin/users', {
+    title: 'All Users',
+    users,
+  });
+});
+
+exports.getUserById = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings
+  const userEdit = await User.findById({ _id: req.params.id });
+  res.status(200).render('admin/users_edit', {
+    title: 'All Users',
+    userEdit,
   });
 });

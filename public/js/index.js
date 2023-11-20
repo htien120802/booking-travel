@@ -4,6 +4,7 @@ import { signup } from './signup';
 import { login, logout } from './login';
 import { forgetpassword, resetpassword } from './resetpassword';
 import { updateSettings } from './updateSettings';
+import { createUser, updateUser, deleteUser } from './user';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 
@@ -17,6 +18,13 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+
+const userDataAddFormInAdmin = document.querySelector('.form-user-add-data');
+const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
+const userPasswordFormInAdmin = document.querySelector(
+  '.form-user-password-admin',
+);
+const btnDeleteUser = document.getElementsByClassName('btn-delete-user');
 
 // DELEGATION
 if (mapBox) {
@@ -107,3 +115,53 @@ if (bookBtn)
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20);
+
+////////// ADMIN
+if (btnDeleteUser)
+  for (var i = 0; i < btnDeleteUser.length; i++) {
+    const temp = btnDeleteUser[i];
+
+    temp.addEventListener('click', (e) => {
+      const userId = temp.getAttribute('data-user-id');
+      deleteUser(userId);
+    });
+  }
+
+if (userDataAddFormInAdmin)
+  userDataAddFormInAdmin.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    createUser({ name, email, password, passwordConfirm });
+  });
+
+if (userDataFormInAdmin)
+  userDataFormInAdmin.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+    const userId = document.getElementById('user-id').value;
+
+    updateUser(form, userId, 'data');
+    // const name = document.getElementById('name').value;
+    // const email = document.getElementById('email').value;
+    // updateSettings({ name, email }, 'data');
+  });
+
+if (userPasswordFormInAdmin)
+  userPasswordFormInAdmin.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.querySelector('.btn--save-password').textContent = 'Updating...';
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    const userId = document.getElementById('user-id').value;
+    await updateUser({ password, passwordConfirm }, userId, 'password');
+
+    document.querySelector('.btn--save-password').textContent = 'Save password';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
+  });

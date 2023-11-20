@@ -12,7 +12,7 @@ block content
     .user-view
       nav.user-view__menu
         ul.side-nav
-          +navItem('#', 'Settings', 'settings')
+          +navItem('/me', 'Settings', 'settings')
           +navItem('/my-tours', 'My bookings', 'briefcase')
           +navItem('#', 'My reviews', 'star')
           +navItem('#', 'Billing', 'credit-card')
@@ -22,7 +22,7 @@ block content
             h5.admin-nav__heading Admin
             ul.side-nav
               +navItem('#', 'Manage tours', 'map')
-              +navItem('#', 'Manage users', 'users', true)
+              +navItem('/admin/users', 'Manage users', 'users', true)
               +navItem('#', 'Manage reviews', 'star')
               +navItem('#', 'Manage bookings', 'briefcase')
 
@@ -40,19 +40,22 @@ block content
                 th(style="width: 10%;").cell-center Active
                 th(style="width: 15%;").cell-center Action
             tbody
-              tr
-                td.cell-center
-                  img.nav__user-img(src="https://picsum.photos/536/354" alt=`Photo of ${user.name}`)
-                td Sally
-                td sally@gmail.com
-                td.cell-center Admin
-                td.cell-center
-                  span.material-symbols-outlined toggle_off
-                  span.material-symbols-outlined.active-user toggle_on
+              each u in users
+                tr
+                  td.cell-center
+                    img.nav__user-img(src=`/img/users/${u.photo}` alt=`Photo of ${u.name}`)
+                  td= u.name
+                  td= u.email
+                  td.cell-center= u.role
+                  td.cell-center
+                    if u.active == false
+                      span.material-symbols-outlined toggle_off
+                    else 
+                      span.material-symbols-outlined.active-user toggle_on
 
-                td.cell-center.action-container
-                  a.btn-action.btn-action--green
-                    span.material-symbols-outlined edit
-                  a(href='/admin/users/add').btn-action.btn-action--red
-                    span.material-symbols-outlined delete
+                  td.cell-center.action-container
+                    a.btn-action.btn-action--green(href=`/admin/users/${u._id}/edit`)
+                      span.material-symbols-outlined edit
+                    a.btn-delete-user.btn-action.btn-action--red(data-user-id=`${u._id}`)
+                      span.material-symbols-outlined delete
 

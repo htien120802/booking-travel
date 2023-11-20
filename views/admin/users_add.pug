@@ -12,7 +12,7 @@ block content
     .user-view
       nav.user-view__menu
         ul.side-nav
-          +navItem('#', 'Settings', 'settings')
+          +navItem('/me', 'Settings', 'settings')
           +navItem('/my-tours', 'My bookings', 'briefcase')
           +navItem('#', 'My reviews', 'star')
           +navItem('#', 'Billing', 'credit-card')
@@ -22,7 +22,7 @@ block content
             h5.admin-nav__heading Admin
             ul.side-nav
               +navItem('#', 'Manage tours', 'map')
-              +navItem('#', 'Manage users', 'users', true)
+              +navItem('/admin/users', 'Manage users', 'users', true)
               +navItem('#', 'Manage reviews', 'star')
               +navItem('#', 'Manage bookings', 'briefcase')
 
@@ -38,10 +38,12 @@ block content
             .form__group.ma-bt-md
               label.form__label(for='email') Email address
               input#email.form__input(type='email', required, name='email')
-            .form__group.form__photo-upload
-              img.form__user-photo(src=`/img/users/${user.photo}`, alt='User photo')
-              input.form__upload(type='file', accept='image/*', id='photo', name='photo')
-              label(for='photo') Choose new photo
+            .form__group.ma-bt-md
+              label.form__label(for='password') Password
+              input#password.form__input(type='password' placeholder='••••••••' required='' minlength='8')
+            .form__group.ma-bt-md
+              label.form__label(for='passwordConfirm') Confirm password
+              input#passwordConfirm.form__input(type='password' placeholder='••••••••' required='' minlength='8')
             .form__group
                 label.form__label(for='role') Role
                 label.label-radio-button
@@ -53,17 +55,6 @@ block content
                 label.label-radio-button
                     input.radio-button(type='radio' name='role' id='lead-guide' value='lead-guide')
                     | Lead Guide
-                label.label-radio-button
-                    input.radio-button(type='radio' name='role' id='admin' value='admin')
-                    | Admin
-            .form__group
-                label.form__label(for='status') Status
-                label.label-radio-button
-                    input.radio-button(type='radio' name='status' id='active' value='active' checked)
-                    | Active
-                label.label-radio-button
-                    input.radio-button(type='radio' name='status' id='inactive' value='inactive')
-                    | Inactive
 
             .form__group.right
               button.btn.btn--small.btn--green Save
