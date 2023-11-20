@@ -676,11 +676,30 @@ body {
 }
 
 .section-cta {
-  margin-top: calc(0px - var(--section-rotate));
-  padding: 3rem;
-  padding-bottom: 11rem;
-  padding-top: calc(15rem + var(--section-rotate));
+  margin-top: calc(0px - var(--section-rotate) - 360px);
+  padding-bottom: 8rem;
+  padding-top: calc(50rem + var(--section-rotate));
   background-color: #f7f7f7;
+}
+
+.section-add-review {
+  margin-top: calc(0px - var(--section-rotate));
+  padding-bottom: 6rem;
+  /* padding-top: calc(2rem + var(--section-rotate)); */
+  background-color: transparent;
+  z-index: 1000;
+}
+
+.review-card {
+  position: relative;
+  max-width: 50rem;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 5rem 5rem 5rem 5rem;
+  border-radius: 2rem;
+  -webkit-box-shadow: 0 3rem 8rem 0.5rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3rem 8rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
 .cta {
@@ -1427,6 +1446,7 @@ body {
 .btn-action:focus {
   outline: none;
   background-color: #2e864b;
+  color: white;
 }
 
 .btn-action--green {
@@ -1457,4 +1477,35 @@ body {
 
 .radio-button {
   margin-right: 1rem;
+}
+
+.pagination-section{
+  text-align: center;
+  margin-top: 10px;
+}
+
+.btn-next, .btn-previous {
+  background-color: white;
+}
+
+.btn-action-disabled,
+.btn-action-disabled:link,
+.btn-action-disabled:visited {
+  font-size: 1.2rem;
+  padding: 1rem 1.2rem;
+  border-radius: 3rem;
+  text-transform: uppercase;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  font-weight: 400;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /*Add later when we use this for the button in form*/
+  border: none;
+  color: #bbb;
+}
+
+.page-info {
+  font-size: 12pt;
 }

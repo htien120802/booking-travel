@@ -76,6 +76,33 @@ block content
             each review in tour.reviews
                 +reviewCard(review)
 
+    if (!isReviewed)
+        section.section-add-review
+            .review-card
+                .div
+                    h2.heading-secondary WANNA WRITE A REVIEW? LET US KNOW YOUR FEELING!
+                    .form__group(style='margin-top: 10px')
+                        label.form__label(for='rating') Rating
+                        label.label-radio-button
+                            input.radio-button(type='radio' name='rating' value='5' id='rating' checked)
+                            | 5
+                        label.label-radio-button
+                            input.radio-button(type='radio' name='rating' value='4' id='rating')
+                            | 4
+                        label.label-radio-button
+                            input.radio-button(type='radio' name='rating' value='3' id='rating')
+                            | 3
+                        label.label-radio-button
+                            input.radio-button(type='radio' name='rating' value='2' id='rating')
+                            | 2
+                        label.label-radio-button
+                            input.radio-button(type='radio' name='rating' value='1' id='rating')
+                            | 1
+                    .form__group(style='margin-top: -10px')
+                        label.form__label(for='review') Review
+                        textarea#reviewInput.form__input(type='text' placeholder='Enter your review...' required='')
+                    a.btn.btn--green.span-all-rows Post your review
+        
     section.section-cta
         .cta
             .cta__img.cta__img--logo

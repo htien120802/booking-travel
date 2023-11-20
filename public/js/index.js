@@ -25,6 +25,7 @@ const userPasswordFormInAdmin = document.querySelector(
   '.form-user-password-admin',
 );
 const btnDeleteUser = document.getElementsByClassName('btn-delete-user');
+const btnPagination = document.getElementById('btn-pagination');
 
 // DELEGATION
 if (mapBox) {
@@ -164,4 +165,14 @@ if (userPasswordFormInAdmin)
     document.querySelector('.btn--save-password').textContent = 'Save password';
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
+  });
+
+if (btnPagination)
+  btnPagination.addEventListener('click', (e) => {
+    const page = e.target.dataset;
+    if (!page) {
+      window.location.href = `/admin/users?page=${page}`;
+    } else {
+      window.location.href = `/admin/users`;
+    }
   });

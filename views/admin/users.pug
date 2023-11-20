@@ -29,7 +29,10 @@ block content
       .user-view__content
         .user-view__form-container(style="text-align:center;")
           h2.heading-secondary.ma-bt-md Users List
-          
+        
+        .form__group.right
+          a.btn.btn--small.btn--green(href='/admin/users/add')(style='margin-right:2.5%') Add new user
+
         table.content__table
             thead
               tr
@@ -58,4 +61,32 @@ block content
                       span.material-symbols-outlined edit
                     a.btn-delete-user.btn-action.btn-action--red(data-user-id=`${u._id}`)
                       span.material-symbols-outlined delete
+        
+        div.pagination-section
+          div.page-info
+            | From 
+            strong= (page - 1) * 10 + 1
+            |  to 
+            strong= (page - 1) * 10 + users.length
+
+          if (+page === 1)
+            button.btn-action-disabled.btn-action--green.btn-previous(disabled)
+              span.material-symbols-outlined arrow_back_ios_new
+          else 
+            a.btn-action.btn-action--green.btn-previous#btn-pagination(href='users?page=' + (+page - 1))
+              span.material-symbols-outlined  arrow_back_ios_new
+
+          if (+page === totalPages)
+            button.btn-action-disabled.btn-action--green.btn-next(disabled)
+              span.material-symbols-outlined arrow_forward_ios
+          else 
+            a.btn-action.btn-action--green.btn-next#btn-pagination(href='users?page=' + (+page + 1))
+              span.material-symbols-outlined arrow_forward_ios
+
+          div.page-info
+            | Page 
+            strong= page 
+            |  of 
+            strong= totalPages
+        
 

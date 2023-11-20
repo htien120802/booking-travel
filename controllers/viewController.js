@@ -3,6 +3,9 @@ const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
+const Review = require('../models/reviewModel');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get tour data from collection
@@ -23,16 +26,28 @@ exports.getTour = catchAsync(async (req, res, next) => {
     fields: 'review rating user',
   });
 
+  let isReviewed = true;
+
   if (!tour) {
     return next(new AppError('There is no tour with that name.', 404));
+  } else {
+    const user = await findLoggedInUser(req);
+    if (user) {
+      const booking = await Booking.findOne({ tour: tour, user: user }); // find User then
+      if (booking) {
+        const review = await Review.findOne({ tour: tour, user: user });
+        if (!review) isReviewed = false;
+      }
+    }
   }
 
-  console.log(tour.reviews);
+  console.log(isReviewed);
   // 2) Build template
   // 3) Render template using data from 1)
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
+    isReviewed,
   });
 });
 
@@ -109,12 +124,29 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  // 1) Find all bookings
-  const users = await User.find({ role: { $ne: 'admin' } });
+  // 1) Get page
+  const page = req.query.page || 1; // Default as 1
+  console.log('/////////////////' + page)
+
+  // 2) Prepare
+  const size = 10;
+  const skip = (page - 1) * size;
+
+  // 3) Paginate
+  const totalResults = await User.find({
+    role: { $ne: 'admin' },
+  }).countDocuments();
+  const totalPages = Math.ceil(totalResults / size);
+  const users = await User.find({ role: { $ne: 'admin' } })
+    .skip(skip)
+    .limit(size)
+    .exec();
 
   res.status(200).render('admin/users', {
     title: 'All Users',
     users,
+    page,
+    totalPages,
   });
 });
 
@@ -126,3 +158,24 @@ exports.getUserById = catchAsync(async (req, res, next) => {
     userEdit,
   });
 });
+
+const findLoggedInUser = async (req) => {
+  if (req.cookies.jwt) {
+    try {
+      // 1) verify token
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET,
+      );
+
+      // 2) Check if user still exists
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        return null;
+      }
+      return currentUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+};
