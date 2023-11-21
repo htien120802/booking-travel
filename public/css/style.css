@@ -1343,7 +1343,8 @@ body {
   transform: translateY(-2px);
 }
 
-.singup-form, .reset-password-form {
+.singup-form,
+.reset-password-form {
   width: 50%;
   margin: 0 auto;
 }
@@ -1369,8 +1370,7 @@ body {
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  margin: 0 auto
-
+  margin: 0 auto;
 }
 
 .content__table thead tr {
@@ -1454,8 +1454,7 @@ body {
 }
 
 .btn-action--red {
-  color: rgb(214, 0, 0)
-
+  color: rgb(214, 0, 0);
 }
 
 .action-container {
@@ -1467,7 +1466,7 @@ body {
 }
 
 .active-user {
-  color:#55c57a
+  color: #55c57a;
 }
 
 .label-radio-button {
@@ -1479,12 +1478,13 @@ body {
   margin-right: 1rem;
 }
 
-.pagination-section{
+.pagination-section {
   text-align: center;
   margin-top: 10px;
 }
 
-.btn-next, .btn-previous {
+.btn-next,
+.btn-previous {
   background-color: white;
 }
 
@@ -1508,4 +1508,84 @@ body {
 
 .page-info {
   font-size: 12pt;
+}
+
+.rating-section {
+  float: left;
+  height: 46px;
+  padding-right: 10px;
+}
+.rating-section:not(:checked) > input {
+  position: absolute;
+  top: 50px;
+  z-index: -1000;
+}
+.rating-section:not(:checked) > label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+.rating-section:not(:checked) > label:before {
+  content: '☆ ';
+}
+.rating-section > input:checked ~ label {
+  color: #7ee4a0;
+}
+.rating-section:not(:checked) > label:hover,
+.rating-section:not(:checked) > label:hover ~ label {
+  color: #009130;
+}
+.rating-section > input:checked + label:hover,
+.rating-section > input:checked + label:hover ~ label,
+.rating-section > input:checked ~ label:hover,
+.rating-section > input:checked ~ label:hover ~ label,
+.rating-section > label:hover ~ input:checked ~ label {
+  color: #009130;
+}
+
+.modal-window {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 50%;
+  left: 50%;
+  text-align: left;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  &:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  & > .modal-div {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 10px 10px 500px rgba(0, 0, 0, 0.274);
+    & > .modal-title {
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: xx-large;
+    }
+    & > .modal-message {
+      margin-bottom: 20px;
+      font-size:medium;
+    }
+    & > .btn-confirm {
+      float: right; 
+      font-weight: bold;
+      font-size: large;
+    }
+  }
 }

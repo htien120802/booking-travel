@@ -126,7 +126,6 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   // 1) Get page
   const page = req.query.page || 1; // Default as 1
-  console.log('/////////////////' + page)
 
   // 2) Prepare
   const size = 10;

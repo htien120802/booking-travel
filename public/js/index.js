@@ -24,7 +24,7 @@ const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
 const userPasswordFormInAdmin = document.querySelector(
   '.form-user-password-admin',
 );
-const btnDeleteUser = document.getElementsByClassName('btn-delete-user');
+const btnDeleteModel = document.querySelector('.btn-confirm-delete');
 const btnPagination = document.getElementById('btn-pagination');
 
 // DELEGATION
@@ -118,15 +118,15 @@ const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20);
 
 ////////// ADMIN
-if (btnDeleteUser)
-  for (var i = 0; i < btnDeleteUser.length; i++) {
-    const temp = btnDeleteUser[i];
-
-    temp.addEventListener('click', (e) => {
-      const userId = temp.getAttribute('data-user-id');
-      deleteUser(userId);
-    });
-  }
+if (btnDeleteModel)
+  btnDeleteModel.addEventListener('click', (e) => {
+    const id = btnDeleteModel.getAttribute('data-id');
+    console.log(id);
+    const objecType = btnDeleteModel.getAttribute('object-type');
+    if (objecType === 'user') {
+      deleteUser(id);
+    }
+  });
 
 if (userDataAddFormInAdmin)
   userDataAddFormInAdmin.addEventListener('submit', (e) => {

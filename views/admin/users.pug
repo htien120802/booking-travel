@@ -1,4 +1,5 @@
 extends ../base
+include _modal
 
 mixin navItem(link, text, icon, active)
   li(class=`${active ? 'side-nav--active' : ''}`)
@@ -59,8 +60,9 @@ block content
                   td.cell-center.action-container
                     a.btn-action.btn-action--green(href=`/admin/users/${u._id}/edit`)
                       span.material-symbols-outlined edit
-                    a.btn-delete-user.btn-action.btn-action--red(data-user-id=`${u._id}`)
+                    a.btn-delete-user.btn-action.btn-action--red(href='#delete')
                       span.material-symbols-outlined delete
+                    +modal('user', u._id)
         
         div.pagination-section
           div.page-info
@@ -88,5 +90,3 @@ block content
             strong= page 
             |  of 
             strong= totalPages
-        
-
