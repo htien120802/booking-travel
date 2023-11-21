@@ -86,21 +86,21 @@ block content
                         label.form__label(for='rating' style="margin-bottom:-10px") Rating
                         div.rating-section
                             input#star5(type='radio' name='rating' value='5')
-                            label(for='star5' title='text') 5 stars
+                            label(for='star5') 5 stars
                             input#star4(type='radio' name='rating' value='4')
-                            label(for='star4' title='text') 4 stars
+                            label(for='star4') 4 stars
                             input#star3(type='radio' name='rating' value='3')
-                            label(for='star3' title='text') 3 stars
+                            label(for='star3') 3 stars
                             input#star2(type='radio' name='rating' value='2')
-                            label(for='star2' title='text') 2 stars 
+                            label(for='star2') 2 stars 
                             input#star1(type='radio' name='rating' value='1')
-                            label(for='star1' title='text') 1 star
+                            label(for='star1') 1 star
 
                     .form__group(style='margin-top: 10px; float: left; width: 100%')
                         label.form__label(for='review') Review
                         textarea#reviewInput.form__input(type='text' placeholder='Enter your review...' required='')
 
-                    a.btn.btn--green.span-all-rows Post your review
+                    a#btn-submit-review.btn.btn--green.span-all-rows(tour-id=`${tour._id}`) Post your review
         
     section.section-cta
         .cta
