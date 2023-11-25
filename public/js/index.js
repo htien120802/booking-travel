@@ -5,6 +5,7 @@ import { login, logout } from './login';
 import { forgetpassword, resetpassword } from './resetpassword';
 import { updateSettings } from './updateSettings';
 import { createUser, updateUser, deleteUser } from './user';
+import { createReview } from './review';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 
@@ -18,6 +19,7 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+const submitReviewBtn = document.getElementById('btn-submit-review');
 
 const userDataAddFormInAdmin = document.querySelector('.form-user-add-data');
 const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
@@ -114,6 +116,15 @@ if (bookBtn)
     bookTour(tourId);
   });
 
+if (submitReviewBtn)
+  submitReviewBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const rating = document.querySelector('input[name="rating"]:checked').value;
+    const review = document.getElementById('reviewInput').value;
+    const tourId = submitReviewBtn.getAttribute('tour-id');
+    createReview(tourId, {rating, review});
+  });
+
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20);
 
@@ -133,9 +144,10 @@ if (userDataAddFormInAdmin)
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
+    const role = document.querySelector('input[name="role"]:checked').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('passwordConfirm').value;
-    createUser({ name, email, password, passwordConfirm });
+    createUser({ name, email, role, password, passwordConfirm });
   });
 
 if (userDataFormInAdmin)
