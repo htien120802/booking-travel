@@ -1,0 +1,87 @@
+extends ../base
+include _modal
+
+mixin navItem(link, text, icon, active)
+  li(class=`${active ? 'side-nav--active' : ''}`)
+    a(href=`${link}`)
+      svg
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
+      | #{text}
+
+block content
+  main.main
+    .user-view
+      nav.user-view__menu
+        ul.side-nav
+          +navItem('/me', 'Settings', 'settings')
+          +navItem('/my-tours', 'My bookings', 'briefcase')
+          +navItem('#', 'My reviews', 'star')
+          +navItem('#', 'Billing', 'credit-card')
+
+        - if (user.role === 'admin')
+          .admin-nav
+            h5.admin-nav__heading Admin
+            ul.side-nav
+              +navItem('#', 'Manage tours', 'map')
+              +navItem('/admin/users', 'Manage users', 'users')
+              +navItem('/admin/reviews', 'Manage reviews', 'star', true)
+              +navItem('/admin/bookings', 'Manage bookings', 'briefcase')
+
+      .user-view__content
+        .user-view__form-container(style="text-align:center;")
+          h2.heading-secondary.ma-bt-md Review List
+
+        //- .table__container
+        table.content__table
+          thead
+              tr
+                th(style="width: 15%;").cell-center Date
+                th(style="width: 30%").cell-center Tour
+                th(style="width: 20%").cell-center User
+                th(style="width: 10%;").cell-center Price
+                th(style="width: 10%;").cell-center Status
+                th(style="width: 15%;").cell-center Action
+          tbody
+                
+              tr
+                td.cell-center= moment('2023-11-21T07:41:00.255Z').format('DD-MM-YYYY HH:mm')
+                td.cell-center The Hike Park
+                td.cell-center John Doe
+                td.cell-center.cell-price $297
+                td.cell-center
+                  .status-content.status-pending
+                    span.material-symbols-outlined.icon-status(title='Pending') schedule
+                  .status-content.status-paid
+                    span.material-symbols-outlined.icon-status(title='Paid') task_alt
+
+                td.cell-center.action-container
+                  a.btn-delete-user.btn-action.btn-action--red(href='#delete')
+                    span.material-symbols-outlined delete
+                +modal('order', '123456')
+        
+        //- div.pagination-section
+        //-   div.page-info
+        //-     | From 
+        //-     strong= (page - 1) * 10 + 1
+        //-     |  to 
+        //-     strong= (page - 1) * 10 + reviews.length
+
+        //-   if (+page === 1)
+        //-     button.btn-action-disabled.btn-action--green.btn-previous(disabled)
+        //-       span.material-symbols-outlined arrow_back_ios_new
+        //-   else 
+        //-     a.btn-action.btn-action--green.btn-previous#btn-pagination(href='users?page=' + (+page - 1))
+        //-       span.material-symbols-outlined  arrow_back_ios_new
+
+        //-   if (+page === totalPages)
+        //-     button.btn-action-disabled.btn-action--green.btn-next(disabled)
+        //-       span.material-symbols-outlined arrow_forward_ios
+        //-   else 
+        //-     a.btn-action.btn-action--green.btn-next#btn-pagination(href='users?page=' + (+page + 1))
+        //-       span.material-symbols-outlined arrow_forward_ios
+
+        //-   div.page-info
+        //-     | Page 
+        //-     strong= page 
+        //-     |  of 
+        //-     strong= totalPages

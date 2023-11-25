@@ -16,4 +16,16 @@ router.get('/users/add', (req, res) => {
 
 router.get('/users/:id/edit', viewController.getUserById);
 
+router.get('/reviews', (req, res) => {
+  res.render('admin/reviews', {
+    title: 'Manage Reviews',
+  });
+});
+
+router.get('/bookings', (req, res) => {
+  res.render('admin/bookings', {
+    title: 'Manage Bookings',
+  });
+});
+
 module.exports = router;

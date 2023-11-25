@@ -1389,7 +1389,7 @@ body {
 
 .content__table th,
 .content__table td {
-  padding: 12px 15px;
+  padding: 12px 10px;
 }
 
 .content__table tbody tr {
@@ -1459,6 +1459,8 @@ body {
 
 .action-container {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cell-center {
@@ -1580,12 +1582,67 @@ body {
     }
     & > .modal-message {
       margin-bottom: 20px;
-      font-size:medium;
+      font-size: medium;
     }
     & > .btn-confirm {
-      float: right; 
+      float: right;
       font-weight: bold;
       font-size: large;
     }
   }
+}
+
+.average-rating {
+  position: relative;
+  appearance: none;
+  color: transparent;
+  width: auto;
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: 15pt;
+}
+
+.average-rating::before {
+  --percent: calc(4.3 / 5 * 100%);
+  content: '☆☆☆☆☆';
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(
+    90deg,
+    #28b487 var(--percent),
+    rgba(0, 0, 0, 0.2) var(--percent)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* .table__container {
+  overflow-x: auto;
+  width: 85%;
+  text-align: center;
+} */
+
+.cell-price {
+  font-weight: bold;
+  color: #20bf6b;
+}
+
+.status-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-paid {
+  color: #00eb4e;
+}
+
+.status-pending {
+  color: rgb(252, 236, 13);
+}
+
+.icon-status {
+  font-size: small;
 }
