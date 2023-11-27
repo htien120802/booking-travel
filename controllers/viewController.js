@@ -97,11 +97,38 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
       msg: `Please book a tour and come back. 🙂`,
     });
   } else {
-    res.status(200).render('overview', {
+    res.status(200).render('mybookings', {
       title: 'My Tours',
       tours,
     });
   }
+});
+
+exports.getMyReviews = catchAsync(async (req, res, next) => {
+  const reviews = await Review.find({ user: req.user.id })
+    .populate('tour')
+    .exec();
+
+  if (reviews.length === 0) {
+    res.status(200).render('nullbooking', {
+      title: 'Write Reviews',
+      headLine: `You haven't written any reviews yet!`,
+      msg: `Please book a tour, write a review and come back. 🙂`,
+    });
+  } else {
+    res.status(200).render('myreviews', {
+      title: 'My Reviews',
+      reviews,
+    });
+  }
+});
+
+exports.editReview = catchAsync(async (req, res, next) => {
+  const review = await Review.findById(req.params.id);
+  res.status(200).render('editreview', {
+    title: 'My Reviews',
+    review,
+  });
 });
 
 exports.updateUserData = catchAsync(async (req, res, next) => {
@@ -178,3 +205,55 @@ const findLoggedInUser = async (req) => {
     }
   }
 };
+
+exports.getAllReviews = catchAsync(async (req, res, next) => {
+  // 1) Get page
+  const page = req.query.page || 1; // Default as 1
+
+  // 2) Prepare
+  const size = 10;
+  const skip = (page - 1) * size;
+
+  // 3) Paginate
+  const totalResults = await Review.find().countDocuments();
+  const totalPages = Math.ceil(totalResults / size);
+  const reviews = await Review.find()
+    .populate('tour')
+    .populate('user')
+    // .skip(skip)
+    // .limit(size)
+    .exec();
+
+  res.status(200).render('admin/reviews', {
+    title: 'All reviews',
+    reviews,
+    page,
+    totalPages,
+  });
+});
+
+exports.getAllBookings = catchAsync(async (req, res, next) => {
+  // 1) Get page
+  const page = req.query.page || 1; // Default as 1
+
+  // 2) Prepare
+  const size = 10;
+  const skip = (page - 1) * size;
+
+  // 3) Paginate
+  const totalResults = await Booking.find().countDocuments();
+  const totalPages = Math.ceil(totalResults / size);
+  const bookings = await Booking.find()
+    .populate('tour')
+    .populate('user')
+    // .skip(skip)
+    // .limit(size)
+    .exec();
+
+  res.status(200).render('admin/bookings', {
+    title: 'All bookings',
+    bookings,
+    page,
+    totalPages,
+  });
+});

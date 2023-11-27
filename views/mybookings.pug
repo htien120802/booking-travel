@@ -1,11 +1,10 @@
-extends ../base
-include _modal
+extends base
 
 mixin navItem(link, text, icon, active)
   li(class=`${active ? 'side-nav--active' : ''}`)
     a(href=`${link}`)
       svg
-        use(xlink:href=`../img/icons.svg#icon-${icon}`)
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
       | #{text}
 
 block content
@@ -15,7 +14,7 @@ block content
         ul.side-nav
           +navItem('/me', 'Settings', 'settings')
           if (user.role === 'user')
-            +navItem('/my-tours', 'My bookings', 'briefcase')
+            +navItem('/my-tours', 'My bookings', 'briefcase', true)
             +navItem('my-reviews', 'My reviews', 'star')
 
         - if (user.role === 'admin')
@@ -25,7 +24,7 @@ block content
               +navItem('#', 'Manage tours', 'map')
               +navItem('/admin/users', 'Manage users', 'users')
               +navItem('/admin/reviews', 'Manage reviews', 'star')
-              +navItem('/admin/bookings', 'Manage bookings', 'briefcase', true)
+              +navItem('/admin/bookings', 'Manage bookings', 'briefcase')
 
       .user-view__content
         .user-view__form-container(style="text-align:center;")
@@ -35,32 +34,20 @@ block content
         table.content__table
           thead
               tr
-                th(style="width: 15%;").cell-center Date
                 th(style="width: 30%").cell-center Tour
-                th(style="width: 20%").cell-center User
+                th(style="width: 15%;").cell-center Start Date
                 th(style="width: 10%;").cell-center Price
-                th(style="width: 10%;").cell-center Status
-                th(style="width: 15%;").cell-center Action
+                th(style="width: 15%;").cell-center Details
           tbody
-              each booking in bookings 
-                if booking.tour && booking.user 
+              each tour in tours 
+                if tour.startDates[0]
                   tr
-                    td.cell-center= moment(`${booking.createdAt}`).format('DD-MM-YYYY HH:mm')
-                    td.cell-center=booking.tour.name
-                    td.cell-center=booking.user.name
-                    td.cell-center.cell-price=`$${booking.price}`
-                    td.cell-center
-                      if booking.paid
-                        .status-content.status-paid
-                          span.material-symbols-outlined.icon-status(title='Paid') task_alt
-                      else 
-                        .status-content.status-pending
-                        span.material-symbols-outlined.icon-status(title='Pending') schedule
-
+                    td.cell-center=tour.name
+                    td.cell-center= moment(`${tour.startDates[0]}`).format('DD-MM-YYYY')
+                    td.cell-center.cell-price=`$${tour.price}`
                     td.cell-center.action-container
-                      a.btn-delete-user.btn-action.btn-action--red(href=`#delete-${booking.id}`)
-                        span.material-symbols-outlined delete
-                    +modal('booking', `${booking.id}`)
+                      a.btn-action.btn-action--green(href=`/tour/${tour.slug}`)
+                           span.material-symbols-outlined visibility
         
         //- div.pagination-section
         //-   div.page-info

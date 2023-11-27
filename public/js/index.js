@@ -5,7 +5,8 @@ import { login, logout } from './login';
 import { forgetpassword, resetpassword } from './resetpassword';
 import { updateSettings } from './updateSettings';
 import { createUser, updateUser, deleteUser } from './user';
-import { createReview } from './review';
+import { createReview, deleteReview, updateReview } from './review';
+import { deleteBooking } from './booking';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 
@@ -20,13 +21,14 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 const submitReviewBtn = document.getElementById('btn-submit-review');
+const updateReviewBtn = document.getElementById('btn-submit-edit-review');
 
 const userDataAddFormInAdmin = document.querySelector('.form-user-add-data');
 const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
 const userPasswordFormInAdmin = document.querySelector(
   '.form-user-password-admin',
 );
-const btnDeleteModel = document.querySelector('.btn-confirm-delete');
+const btnDeleteModel = document.querySelectorAll('.btn-confirm-delete');
 const btnPagination = document.getElementById('btn-pagination');
 
 // DELEGATION
@@ -122,22 +124,38 @@ if (submitReviewBtn)
     const rating = document.querySelector('input[name="rating"]:checked').value;
     const review = document.getElementById('reviewInput').value;
     const tourId = submitReviewBtn.getAttribute('tour-id');
-    createReview(tourId, {rating, review});
+    createReview(tourId, { rating, review });
+  });
+
+if (updateReviewBtn)
+  updateReviewBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const rating = document.querySelector('input[name="rating"]:checked').value;
+    const review = document.getElementById('reviewInput').value;
+    const reviewId = updateReviewBtn.getAttribute('review-id');
+    updateReview(reviewId, { rating, review });
   });
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20);
 
 ////////// ADMIN
-if (btnDeleteModel)
-  btnDeleteModel.addEventListener('click', (e) => {
-    const id = btnDeleteModel.getAttribute('data-id');
-    console.log(id);
-    const objecType = btnDeleteModel.getAttribute('object-type');
-    if (objecType === 'user') {
-      deleteUser(id);
-    }
+if (btnDeleteModel) {
+  btnDeleteModel.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const id = btn.getAttribute('data-id');
+      console.log(id);
+      const objecType = btn.getAttribute('object-type');
+      if (objecType === 'user') {
+        deleteUser(id);
+      } else if (objecType === 'review'){
+        deleteReview(id);
+      } else if (objecType === 'booking'){
+        deleteBooking(id);
+      }
+    })
   });
+};
 
 if (userDataAddFormInAdmin)
   userDataAddFormInAdmin.addEventListener('submit', (e) => {

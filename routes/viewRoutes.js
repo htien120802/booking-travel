@@ -20,6 +20,12 @@ router.get(
   authController.protect,
   viewController.getMyTours,
 );
+router.get('/my-reviews', authController.protect, viewController.getMyReviews);
+router.get(
+  '/my-reviews/:id/edit',
+  authController.protect,
+  viewController.editReview,
+);
 router.get('/forget-password', viewController.getForgetPasswordForm);
 router.get('/reset-password/:resetToken', viewController.getResetPasswordForm);
 

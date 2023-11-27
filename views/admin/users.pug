@@ -5,7 +5,7 @@ mixin navItem(link, text, icon, active)
   li(class=`${active ? 'side-nav--active' : ''}`)
     a(href=`${link}`)
       svg
-        use(xlink:href=`img/icons.svg#icon-${icon}`)
+        use(xlink:href=`../img/icons.svg#icon-${icon}`)
       | #{text}
 
 block content
@@ -14,9 +14,9 @@ block content
       nav.user-view__menu
         ul.side-nav
           +navItem('/me', 'Settings', 'settings')
-          +navItem('/my-tours', 'My bookings', 'briefcase')
-          +navItem('#', 'My reviews', 'star')
-          +navItem('#', 'Billing', 'credit-card')
+          if (user.role === 'user')
+            +navItem('/my-tours', 'My bookings', 'briefcase')
+            +navItem('my-reviews', 'My reviews', 'star')
 
         - if (user.role === 'admin')
           .admin-nav
@@ -24,8 +24,8 @@ block content
             ul.side-nav
               +navItem('#', 'Manage tours', 'map')
               +navItem('/admin/users', 'Manage users', 'users', true)
-              +navItem('#', 'Manage reviews', 'star')
-              +navItem('#', 'Manage bookings', 'briefcase')
+              +navItem('/admin/reviews', 'Manage reviews', 'star')
+              +navItem('/admin/bookings', 'Manage bookings', 'briefcase')
 
       .user-view__content
         .user-view__form-container(style="text-align:center;")
@@ -60,7 +60,7 @@ block content
                   td.cell-center.action-container
                     a.btn-action.btn-action--green(href=`/admin/users/${u._id}/edit`)
                       span.material-symbols-outlined edit
-                    a.btn-delete-user.btn-action.btn-action--red(href='#delete')
+                    a.btn-delete-user.btn-action.btn-action--red(href=`#delete-${u._id}`)
                       span.material-symbols-outlined delete
                     +modal('user', u._id)
         

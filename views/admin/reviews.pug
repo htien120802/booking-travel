@@ -5,7 +5,7 @@ mixin navItem(link, text, icon, active)
   li(class=`${active ? 'side-nav--active' : ''}`)
     a(href=`${link}`)
       svg
-        use(xlink:href=`img/icons.svg#icon-${icon}`)
+        use(xlink:href=`../img/icons.svg#icon-${icon}`)
       | #{text}
 
 block content
@@ -14,9 +14,9 @@ block content
       nav.user-view__menu
         ul.side-nav
           +navItem('/me', 'Settings', 'settings')
-          +navItem('/my-tours', 'My bookings', 'briefcase')
-          +navItem('#', 'My reviews', 'star')
-          +navItem('#', 'Billing', 'credit-card')
+          if (user.role === 'user')
+            +navItem('/my-tours', 'My bookings', 'briefcase')
+            +navItem('my-reviews', 'My reviews', 'star')
 
         - if (user.role === 'admin')
           .admin-nav
@@ -42,19 +42,21 @@ block content
                     th(style="width: 15%;").cell-center User
                     th(style="width: 10%;").cell-center Action
                 tbody
-                
-                    tr
-                    td.cell-center= moment('2023-11-21T07:41:00.255Z').format('DD-MM-YYYY HH:mm')
-                    td Best tour ever hg sgw wuedh fhwufi dfnsid fweo
-                    td.cell-center
-                        meter.average-rating(min='0' max='5' value='4.3' title='4.3 out of 5 stars' style='margin: 0 auto')
-                         | 4.3 out of 5
-                    td.cell-center The Hike Park
-                    td.cell-center John Doe
-                    td.cell-center.action-container
-                        a.btn-delete-user.btn-action.btn-action--red(href='#delete')
-                            span.material-symbols-outlined delete
-                        +modal('review', '123456')
+                    each review in reviews
+                      if review.user && review.tour
+                        tr
+                        td.cell-center= moment(`${review.createdAt}`).format('DD-MM-YYYY HH:mm')
+                        td=review.review
+                        td.cell-center
+                            each star in [1, 2, 3, 4, 5]
+                              svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                                use(xlink:href='/img/icons.svg#icon-star')
+                        td.cell-center=review.tour.name
+                        td.cell-center=review.user.name
+                        td.cell-center.action-container
+                            a.btn-delete-user.btn-action.btn-action--red(href=`#delete-${review.id}`)
+                                span.material-symbols-outlined delete
+                            +modal('review', `${review.id}`)
         
         //- div.pagination-section
         //-   div.page-info

@@ -1,11 +1,11 @@
-extends ../base
-include _modal
+extends base
+//- include ./admin/_modal
 
 mixin navItem(link, text, icon, active)
   li(class=`${active ? 'side-nav--active' : ''}`)
     a(href=`${link}`)
       svg
-        use(xlink:href=`../img/icons.svg#icon-${icon}`)
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
       | #{text}
 
 block content
@@ -16,7 +16,7 @@ block content
           +navItem('/me', 'Settings', 'settings')
           if (user.role === 'user')
             +navItem('/my-tours', 'My bookings', 'briefcase')
-            +navItem('my-reviews', 'My reviews', 'star')
+            +navItem('my-reviews', 'My reviews', 'star', true)
 
         - if (user.role === 'admin')
           .admin-nav
@@ -25,42 +25,35 @@ block content
               +navItem('#', 'Manage tours', 'map')
               +navItem('/admin/users', 'Manage users', 'users')
               +navItem('/admin/reviews', 'Manage reviews', 'star')
-              +navItem('/admin/bookings', 'Manage bookings', 'briefcase', true)
+              +navItem('/admin/bookings', 'Manage bookings', 'briefcase')
 
       .user-view__content
         .user-view__form-container(style="text-align:center;")
-          h2.heading-secondary.ma-bt-md Review List
+          h2.heading-secondary.ma-bt-md Edit review
 
-        //- .table__container
-        table.content__table
-          thead
-              tr
-                th(style="width: 15%;").cell-center Date
-                th(style="width: 30%").cell-center Tour
-                th(style="width: 20%").cell-center User
-                th(style="width: 10%;").cell-center Price
-                th(style="width: 10%;").cell-center Status
-                th(style="width: 15%;").cell-center Action
-          tbody
-              each booking in bookings 
-                if booking.tour && booking.user 
-                  tr
-                    td.cell-center= moment(`${booking.createdAt}`).format('DD-MM-YYYY HH:mm')
-                    td.cell-center=booking.tour.name
-                    td.cell-center=booking.user.name
-                    td.cell-center.cell-price=`$${booking.price}`
-                    td.cell-center
-                      if booking.paid
-                        .status-content.status-paid
-                          span.material-symbols-outlined.icon-status(title='Paid') task_alt
-                      else 
-                        .status-content.status-pending
-                        span.material-symbols-outlined.icon-status(title='Pending') schedule
+        .review-card
+            .div
+                h2.heading-secondary EDIT YOUR REVIEW?
 
-                    td.cell-center.action-container
-                      a.btn-delete-user.btn-action.btn-action--red(href=`#delete-${booking.id}`)
-                        span.material-symbols-outlined delete
-                    +modal('booking', `${booking.id}`)
+                .form__group(style='margin-top: 10px')
+                    label.form__label(for='rating' style="margin-bottom:-10px") Rating
+                    div.rating-section
+                        input#star5(type='radio' name='rating' value='5' checked=review.rating==5)
+                        label(for='star5') 5 stars
+                        input#star4(type='radio' name='rating' value='4' checked=review.rating==4)
+                        label(for='star4') 4 stars
+                        input#star3(type='radio' name='rating' value='3' checked=review.rating==3)
+                        label(for='star3') 3 stars
+                        input#star2(type='radio' name='rating' value='2' checked=review.rating==2)
+                        label(for='star2') 2 stars 
+                        input#star1(type='radio' name='rating' value='1' checked=review.rating==1)
+                        label(for='star1') 1 star
+
+                .form__group(style='margin-top: 10px; float: left; width: 100%')
+                    label.form__label(for='review') Review
+                    textarea#reviewInput.form__input(type='text' placeholder='Enter your review...')=review.review
+
+                a#btn-submit-edit-review.btn.btn--green.span-all-rows(review-id=`${review.id}`) Post your review
         
         //- div.pagination-section
         //-   div.page-info

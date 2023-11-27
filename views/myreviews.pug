@@ -1,11 +1,11 @@
-extends ../base
-include _modal
+extends base
+//- include ./admin/_modal
 
 mixin navItem(link, text, icon, active)
   li(class=`${active ? 'side-nav--active' : ''}`)
     a(href=`${link}`)
       svg
-        use(xlink:href=`../img/icons.svg#icon-${icon}`)
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
       | #{text}
 
 block content
@@ -16,7 +16,7 @@ block content
           +navItem('/me', 'Settings', 'settings')
           if (user.role === 'user')
             +navItem('/my-tours', 'My bookings', 'briefcase')
-            +navItem('my-reviews', 'My reviews', 'star')
+            +navItem('my-reviews', 'My reviews', 'star', true)
 
         - if (user.role === 'admin')
           .admin-nav
@@ -25,42 +25,38 @@ block content
               +navItem('#', 'Manage tours', 'map')
               +navItem('/admin/users', 'Manage users', 'users')
               +navItem('/admin/reviews', 'Manage reviews', 'star')
-              +navItem('/admin/bookings', 'Manage bookings', 'briefcase', true)
+              +navItem('/admin/bookings', 'Manage bookings', 'briefcase')
 
       .user-view__content
         .user-view__form-container(style="text-align:center;")
-          h2.heading-secondary.ma-bt-md Review List
+          h2.heading-secondary.ma-bt-md My reviews
 
         //- .table__container
         table.content__table
-          thead
-              tr
-                th(style="width: 15%;").cell-center Date
-                th(style="width: 30%").cell-center Tour
-                th(style="width: 20%").cell-center User
-                th(style="width: 10%;").cell-center Price
-                th(style="width: 10%;").cell-center Status
-                th(style="width: 15%;").cell-center Action
-          tbody
-              each booking in bookings 
-                if booking.tour && booking.user 
-                  tr
-                    td.cell-center= moment(`${booking.createdAt}`).format('DD-MM-YYYY HH:mm')
-                    td.cell-center=booking.tour.name
-                    td.cell-center=booking.user.name
-                    td.cell-center.cell-price=`$${booking.price}`
-                    td.cell-center
-                      if booking.paid
-                        .status-content.status-paid
-                          span.material-symbols-outlined.icon-status(title='Paid') task_alt
-                      else 
-                        .status-content.status-pending
-                        span.material-symbols-outlined.icon-status(title='Pending') schedule
-
-                    td.cell-center.action-container
-                      a.btn-delete-user.btn-action.btn-action--red(href=`#delete-${booking.id}`)
-                        span.material-symbols-outlined delete
-                    +modal('booking', `${booking.id}`)
+            thead
+                tr
+                    th(style="width: 15%;").cell-center Date
+                    th(style="width: 25%").cell-center Review
+                    th(style="width: 15%").cell-center Rating
+                    th(style="width: 20%;").cell-center Tour
+                    th(style="width: 10%;").cell-center Action
+                tbody
+                    each review in reviews
+                      if review.user && review.tour
+                        tr
+                        td.cell-center= moment(`${review.createdAt}`).format('DD-MM-YYYY HH:mm')
+                        td=review.review
+                        td.cell-center
+                            each star in [1, 2, 3, 4, 5]
+                              svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                                use(xlink:href='/img/icons.svg#icon-star')
+                        td.cell-center=review.tour.name
+                        td.cell-center.action-container
+                          a.btn-action.btn-action--green(href=`/my-reviews/${review.id}/edit`)
+                           span.material-symbols-outlined edit
+                            //- a.btn-delete-user.btn-action.btn-action--red(href=`#delete-${review.id}`)
+                            //-     span.material-symbols-outlined delete
+                            //- +modal('review', `${review.id}`)
         
         //- div.pagination-section
         //-   div.page-info
