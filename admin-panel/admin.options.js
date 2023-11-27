@@ -19,8 +19,8 @@ const options = {
             options: {
                 listProperties: ['_id', 'name', 'email', 'role', 'active'],
                 filterProperties: ['_id', 'name', 'email', 'role', 'active'],
-                editProperties: ['name', 'email', 'role', 'active', 'passwordChangedAt', 'passwordResetExpires'],
-                showProperties: ['_id', 'name', 'email', 'role', 'active', 'passwordChangedAt', 'passwordResetExpires']
+                editProperties: ['name', 'email', 'role', 'active', 'password', 'passwordConfirm'],
+                showProperties: ['_id', 'name', 'email', 'role', 'active']
             }
         }
     ],
