@@ -17,7 +17,7 @@ const Edit: React.FC<BasePropertyProps> = (props) => {
       <Label>{property.label}</Label>
       <DropZone onChange={handleDropZoneChange}/>
       {uploadedPhoto && !photoToUpload && (
-        <DropZoneItem src={'/public/img/users/'+uploadedPhoto} />
+        <DropZoneItem src={`/public/img/users/${uploadedPhoto}`} />
       )}
     </Box>
   )

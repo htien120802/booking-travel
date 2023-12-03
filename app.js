@@ -112,6 +112,7 @@ const authController = require('./controllers/authController');
 app.use(admin.options.rootPath, authController.protect, authController.restrictTo('admin'), router);
 
 app.use('/public/img/users', express.static('public/img/users'));
+app.use('/public/img/tours', express.static('public/img/tours'));
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
