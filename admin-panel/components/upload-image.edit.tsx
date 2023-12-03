@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react'
 import { Label, Box, DropZone, BasePropertyProps, DropZoneProps, DropZoneItem } from 'admin-bro'
 
