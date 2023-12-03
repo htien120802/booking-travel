@@ -1,7 +1,5 @@
-const { buildRouter } = require('admin-bro-expressjs')
+const { buildRouter } = require('admin-bro-expressjs');
 
-const buildAdminRouter = (admin) => {
-    return buildRouter(admin);
-}
+const buildAdminRouter = (admin) => buildRouter(admin);
 
-module.exports = buildAdminRouter
+module.exports = buildAdminRouter;
