@@ -1,0 +1,24 @@
+extends base
+
+block content
+    section.section-lander
+        .lander__hero
+            .lander__hero-overlay &nbsp;
+            img.lander__hero-img(src='/img/landing_image_6.jpg', alt='Landing')
+
+        .landing-box(style='text-align:left')
+            .landing-box__group
+                .landing-box__detail
+                    span.landing-box__text= 'SPEND YOUR HOLIDAY WITH US THROUGH'
+            h1.landing-primary
+                span= 'NEW ADVENTURES'
+            a(href = '/all-tours').landing-box__group__book
+                .landing-box__detail
+                    span.landing-box__text= 'EXPLORE NOW'
+
+
+    section.section-image 
+        img.promote-image(src='/img/landing_image_5.jpg', alt='Landing')
+        img.promote-image(src='/img/landing_image_7.jpg', alt='Landing')
+        img.promote-image(src='/img/landing_image_6.jpg', alt='Landing')
+            

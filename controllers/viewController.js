@@ -7,6 +7,12 @@ const Review = require('../models/reviewModel');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
+exports.getLandingPage = catchAsync(async (req, res, next) => {
+  res.status(200).render('landing_page', {
+    title: 'NATOURS',
+  });
+})
+
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get tour data from collection
   const tours = await Tour.find();

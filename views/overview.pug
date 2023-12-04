@@ -23,7 +23,7 @@ block content
                         .card__data
                             svg.card__icon
                                 use(xlink:href='/img/icons.svg#icon-calendar')
-                            if tour.startDates[0]
+                            if tour.startDates && tour.startDates[0]
                                 span= tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
                             else 
                                 span= 'No plan'
