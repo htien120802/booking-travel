@@ -11,11 +11,19 @@ exports.getLandingPage = catchAsync(async (req, res, next) => {
   res.status(200).render('landing_page', {
     title: 'NATOURS',
   });
-})
+});
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get tour data from collection
-  const tours = await Tour.find();
+  let tours;
+  console.log(req.query.search);
+  if (req.query.search) {
+    tours = await Tour.find({
+      name: { $regex: new RegExp(req.query.search, 'i')},
+    });
+  } else {
+    tours = await Tour.find();
+  }
 
   // 2) Build template
   // 3) Render that template using tour data from 1)

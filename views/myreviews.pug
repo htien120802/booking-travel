@@ -16,16 +16,8 @@ block content
           +navItem('/me', 'Settings', 'settings')
           if (user.role === 'user')
             +navItem('/my-tours', 'My bookings', 'briefcase')
-            +navItem('my-reviews', 'My reviews', 'star', true)
+            +navItem('/my-reviews', 'My reviews', 'star', true)
 
-        - if (user.role === 'admin')
-          .admin-nav
-            h5.admin-nav__heading Admin
-            ul.side-nav
-              +navItem('#', 'Manage tours', 'map')
-              +navItem('/admin/users', 'Manage users', 'users')
-              +navItem('/admin/reviews', 'Manage reviews', 'star')
-              +navItem('/admin/bookings', 'Manage bookings', 'briefcase')
 
       .user-view__content
         .user-view__form-container(style="text-align:center;")

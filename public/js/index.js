@@ -22,14 +22,15 @@ const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 const submitReviewBtn = document.getElementById('btn-submit-review');
 const updateReviewBtn = document.getElementById('btn-submit-edit-review');
+const searchBtn  = document.querySelector('.icon-search');
 
-const userDataAddFormInAdmin = document.querySelector('.form-user-add-data');
-const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
-const userPasswordFormInAdmin = document.querySelector(
-  '.form-user-password-admin',
-);
-const btnDeleteModel = document.querySelectorAll('.btn-confirm-delete');
-const btnPagination = document.getElementById('btn-pagination');
+// const userDataAddFormInAdmin = document.querySelector('.form-user-add-data');
+// const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
+// const userPasswordFormInAdmin = document.querySelector(
+//   '.form-user-password-admin',
+// );
+// const btnDeleteModel = document.querySelectorAll('.btn-confirm-delete');
+// const btnPagination = document.getElementById('btn-pagination');
 
 // DELEGATION
 if (mapBox) {
@@ -136,73 +137,79 @@ if (updateReviewBtn)
     updateReview(reviewId, { rating, review });
   });
 
+  if (searchBtn)
+    searchBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const keyword = document.getElementById('search').value;
+      window.setTimeout(() => {
+        location.assign(`/all-tours?search=${keyword}`);
+      }, 1000);
+    });
+
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20);
 
 ////////// ADMIN
-if (btnDeleteModel) {
-  btnDeleteModel.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const id = btn.getAttribute('data-id');
-      console.log(id);
-      const objecType = btn.getAttribute('object-type');
-      if (objecType === 'user') {
-        deleteUser(id);
-      } else if (objecType === 'review'){
-        deleteReview(id);
-      } else if (objecType === 'booking'){
-        deleteBooking(id);
-      }
-    })
-  });
-};
+// if (btnDeleteModel) {
+//   btnDeleteModel.forEach((btn) => {
+//     btn.addEventListener('click', (e) => {
+//       const id = btn.getAttribute('data-id');
+//       console.log(id);
+//       const objecType = btn.getAttribute('object-type');
+//       if (objecType === 'user') {
+//         deleteUser(id);
+//       } else if (objecType === 'review'){
+//         deleteReview(id);
+//       } else if (objecType === 'booking'){
+//         deleteBooking(id);
+//       }
+//     })
+//   });
+// };
 
-if (userDataAddFormInAdmin)
-  userDataAddFormInAdmin.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const role = document.querySelector('input[name="role"]:checked').value;
-    const password = document.getElementById('password').value;
-    const passwordConfirm = document.getElementById('passwordConfirm').value;
-    createUser({ name, email, role, password, passwordConfirm });
-  });
+// if (userDataAddFormInAdmin)
+//   userDataAddFormInAdmin.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     const name = document.getElementById('name').value;
+//     const email = document.getElementById('email').value;
+//     const role = document.querySelector('input[name="role"]:checked').value;
+//     const password = document.getElementById('password').value;
+//     const passwordConfirm = document.getElementById('passwordConfirm').value;
+//     createUser({ name, email, role, password, passwordConfirm });
+//   });
 
-if (userDataFormInAdmin)
-  userDataFormInAdmin.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const form = new FormData();
-    form.append('name', document.getElementById('name').value);
-    form.append('email', document.getElementById('email').value);
-    form.append('photo', document.getElementById('photo').files[0]);
-    const userId = document.getElementById('user-id').value;
+// if (userDataFormInAdmin)
+//   userDataFormInAdmin.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     const form = new FormData();
+//     form.append('name', document.getElementById('name').value);
+//     form.append('email', document.getElementById('email').value);
+//     form.append('photo', document.getElementById('photo').files[0]);
+//     const userId = document.getElementById('user-id').value;
 
-    updateUser(form, userId, 'data');
-    // const name = document.getElementById('name').value;
-    // const email = document.getElementById('email').value;
-    // updateSettings({ name, email }, 'data');
-  });
+//     updateUser(form, userId, 'data');
+//   });
 
-if (userPasswordFormInAdmin)
-  userPasswordFormInAdmin.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    document.querySelector('.btn--save-password').textContent = 'Updating...';
-    const password = document.getElementById('password').value;
-    const passwordConfirm = document.getElementById('password-confirm').value;
-    const userId = document.getElementById('user-id').value;
-    await updateUser({ password, passwordConfirm }, userId, 'password');
+// if (userPasswordFormInAdmin)
+//   userPasswordFormInAdmin.addEventListener('submit', async (e) => {
+//     e.preventDefault();
+//     document.querySelector('.btn--save-password').textContent = 'Updating...';
+//     const password = document.getElementById('password').value;
+//     const passwordConfirm = document.getElementById('password-confirm').value;
+//     const userId = document.getElementById('user-id').value;
+//     await updateUser({ password, passwordConfirm }, userId, 'password');
 
-    document.querySelector('.btn--save-password').textContent = 'Save password';
-    document.getElementById('password').value = '';
-    document.getElementById('password-confirm').value = '';
-  });
+//     document.querySelector('.btn--save-password').textContent = 'Save password';
+//     document.getElementById('password').value = '';
+//     document.getElementById('password-confirm').value = '';
+//   });
 
-if (btnPagination)
-  btnPagination.addEventListener('click', (e) => {
-    const page = e.target.dataset;
-    if (!page) {
-      window.location.href = `/admin/users?page=${page}`;
-    } else {
-      window.location.href = `/admin/users`;
-    }
-  });
+// if (btnPagination)
+//   btnPagination.addEventListener('click', (e) => {
+//     const page = e.target.dataset;
+//     if (!page) {
+//       window.location.href = `/admin/users?page=${page}`;
+//     } else {
+//       window.location.href = `/admin/users`;
+//     }
+//   });

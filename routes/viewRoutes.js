@@ -8,7 +8,7 @@ const router = express.Router();
 
 // router.use();
 
-router.get('/', viewController.getLandingPage);
+router.get('/', authController.isLoggedIn, viewController.getLandingPage);
 
 router.get('/all-tours', authController.isLoggedIn, viewController.getOverview);
 
