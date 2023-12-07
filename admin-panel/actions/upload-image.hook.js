@@ -7,7 +7,7 @@ const after = async (response, request, context) => {
   const { record, uploadImage } = context;
 
   if (record.isValid() && uploadImage) {
-    const fileName = `user-${record.id().toString()}-${Date.now()}.jpeg`;
+    const fileName = `user-${record.id().toString()}-${Date.now()}.jpg`;
     const filePath = path.join('public/img/users', fileName);
     await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
     await fs.promises.copyFile(uploadImage.path, filePath);
