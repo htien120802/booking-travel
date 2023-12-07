@@ -10,8 +10,8 @@ const after = async (response, request, context) => {
     const fileName = `tour-${record.id().toString()}-cover.jpg`;
     const filePath = path.join('public/img/tours', fileName);
     await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.promises.copyFile(uploadImage.path, filePath);
-    await fs.promises.unlink(uploadImage.path);
+    await fs.promises.copyFile(uploadCover.path, filePath);
+    await fs.promises.unlink(uploadCover.path);
     await record.update({
       imageCover: `${fileName}`,
     });
@@ -23,8 +23,8 @@ const after = async (response, request, context) => {
       const fileName = `tour-${record.id().toString()}-${i + 1}.jpg`;
       const filePath = path.join('public/img/tours', fileName);
       await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-      await fs.promises.copyFile(uploadImage.path, filePath);
-      await fs.promises.unlink(uploadImage.path);
+      await fs.promises.copyFile(uploadImages.path, filePath);
+      await fs.promises.unlink(uploadImages.path);
       fileNames.push(fileName);
     }
     await record.update({
