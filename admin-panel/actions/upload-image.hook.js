@@ -10,8 +10,8 @@ const after = async (response, request, context) => {
     const fileName = `user-${record.id().toString()}-${Date.now()}.jpeg`;
     const filePath = path.join('public/img/users', fileName);
     await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.promises.rename(uploadImage.path, filePath);
-
+    await fs.promises.copyFile(uploadImage.path, filePath);
+    await fs.promises.unlink(uploadImage.path);
     await record.update({
       photo: `${fileName}`,
     });
