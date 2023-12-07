@@ -1,6 +1,3 @@
-// review / rating / createdAt / ref to tour / ref to user
-// import mongoose from 'mongoose';
-// import Tour from './tourModel.js';
 const mongoose = require('mongoose');
 const Tour = require('./tourModel');
 
@@ -43,12 +40,10 @@ reviewSchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name photo',
   });
-
   next();
 });
 
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
-  // console.log(tourId);
   const stats = await this.aggregate([
     {
       $match: { tour: tourId },
@@ -61,7 +56,6 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
       },
     },
   ]);
-  // console.log(stats);
 
   if (stats.length > 0) {
     await Tour.findByIdAndUpdate(tourId, {
