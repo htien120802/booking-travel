@@ -47,8 +47,26 @@ const options = {
           passwordChangedAt: {
             isVisible: false,
           },
+          email: {
+            type: 'email',
+          },
+          password: {
+            type: 'password',
+            isVisible: {
+              edit: true,
+              show: false,
+              list: false,
+              filter: false,
+            },
+          },
           passwordConfirm: {
-            isVisible: false,
+            type: 'password',
+            isVisible: {
+              edit: true,
+              show: false,
+              list: false,
+              filter: false,
+            },
           },
           passwordResetToken: {
             isVisible: false,
@@ -105,23 +123,6 @@ const options = {
           'difficulty',
           'secretTour',
           'createdAt',
-        ],
-        editProperties: [
-          'name',
-          'duration',
-          'maxGroupSize',
-          'difficulty',
-          'secretTour',
-          'price',
-          'priceDiscount',
-          'summary',
-          'description',
-          'uploadCover',
-          'uploadImages',
-          'secretTour',
-          // 'startLocation',
-          'locations',
-          'guides',
         ],
         properties: {
           description: {
@@ -202,6 +203,7 @@ const options = {
     {
       resource: Review,
       options: {
+        listProperties: ['review', 'rating', 'createdAt', 'tour'],
         properties: {
           review: {
             type: 'richtext',
