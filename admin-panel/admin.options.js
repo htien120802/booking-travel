@@ -1,9 +1,9 @@
 const AdminBro = require('admin-bro');
 const AdminBroMongoose = require('admin-bro-mongoose');
-const User = require('../models/userModel');
-const Tour = require('../models/tourModel');
-const Review = require('../models/reviewModel');
-const Booking = require('../models/bookingModel');
+const User = require('../admin_models/userModel');
+const Tour = require('../admin_models/tourModel');
+const Review = require('../admin_models/reviewModel');
+const Booking = require('../admin_models/bookingModel');
 
 const {
   after: uploadAfterHook,
@@ -199,11 +199,9 @@ const options = {
         },
       },
     },
-    { resource: Booking },
     {
       resource: Review,
       options: {
-        listProperties: ['review', 'rating', 'createdAt', 'tour'],
         properties: {
           review: {
             type: 'richtext',
@@ -214,6 +212,7 @@ const options = {
         },
       },
     },
+    { resource: Booking },
   ],
   branding: {
     logo: 'https://michaeljamie.github.io/advanced-css-sass-less-course/Natours/img/Natours-Logo-green.png',
