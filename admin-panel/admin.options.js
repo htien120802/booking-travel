@@ -4,6 +4,7 @@ const User = require('../admin_models/userModel');
 const Tour = require('../admin_models/tourModel');
 const Review = require('../admin_models/reviewModel');
 const Booking = require('../admin_models/bookingModel');
+const Error = require('../admin_models/errorModel');
 
 const {
   after: uploadAfterHook,
@@ -209,10 +210,43 @@ const options = {
               rows: 20,
             },
           },
+          rating: {
+            availableValues: [
+              { value: '1', label: '★' },
+              { value: '2', label: '★★' },
+              { value: '3', label: '★★★' },
+              { value: '4', label: '★★★★' },
+              { value: '5', label: '★★★★★' },
+            ],
+          },
         },
       },
     },
-    { resource: Booking },
+    {
+      resource: Booking,
+      options: {
+        listProperties: ['_id', 'tour', 'user', 'price', 'paid', 'createdAt'],
+      },
+    },
+    {
+      resource: Error,
+      options: {
+        listProperties: ['_id', 'status', 'message', 'stack'],
+        parent: {
+          name: 'Errors',
+        },
+        actions: {
+          new: {
+            isAccessible: false,
+            isVisible: false,
+          },
+          edit: {
+            isAccessible: false,
+            isVisible: false,
+          },
+        },
+      },
+    },
   ],
   branding: {
     logo: 'https://michaeljamie.github.io/advanced-css-sass-less-course/Natours/img/Natours-Logo-green.png',

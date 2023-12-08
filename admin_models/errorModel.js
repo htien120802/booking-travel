@@ -15,10 +15,10 @@ const errorSchema = new mongoose.Schema({
   },
   stack: {
     type: String,
-    // required: [true, 'Error has a stack']
+    required: [true, 'Error has a stack'],
   },
 });
 
-const ErrorStack = mongoose.model('ErrorStack', errorSchema);
+const Error = mongoose.model('ErrorStack', errorSchema);
 
-module.exports = ErrorStack;
+module.exports = Error;
