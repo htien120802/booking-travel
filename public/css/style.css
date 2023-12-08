@@ -1483,6 +1483,7 @@ body {
 .pagination-section {
   text-align: center;
   margin-top: 10px;
+  width: 100%
 }
 
 .btn-next,
@@ -1884,7 +1885,7 @@ body {
 }
 
 span.icon-spacing {
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .tour-image__like {

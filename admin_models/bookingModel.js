@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.models = {};
+mongoose.modelSchemas = {};
 const bookingSchema = new mongoose.Schema(
   {
     price: {
@@ -30,14 +32,6 @@ const bookingSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   },
 );
-
-bookingSchema.pre(/^find/, function (next) {
-  this.populate('user').populate({
-    path: 'tour',
-    select: 'name',
-  });
-  next();
-});
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

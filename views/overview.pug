@@ -3,7 +3,6 @@ extends base
 block content
     main.main
         .card-container
-
             each tour in tours
                 .card
                     .card__header
@@ -46,3 +45,31 @@ block content
                             | 
                             span.card__footer-text= `rating (${tour.ratingsQuantity})`
                         a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
+                
+        div.pagination-section
+            div.page-info
+                | From 
+                strong= (page - 1) * 6 + 1
+                |  to 
+                strong= (page - 1) * 6 + tours.length
+
+            div.page-info
+                if (+page === 1)
+                    button.btn-action-disabled.btn-action--green.btn-previous(disabled)
+                        span.material-symbols-outlined arrow_back_ios_new
+                else 
+                    a.btn-action.btn-action--green.btn-previous#btn-pagination(href='/all-tours?page=' + (+page - 1))
+                        span.material-symbols-outlined  arrow_back_ios_new
+
+                if (+page === totalPages)
+                    button.btn-action-disabled.btn-action--green.btn-next(disabled)
+                        span.material-symbols-outlined arrow_forward_ios
+                else 
+                    a.btn-action.btn-action--green.btn-next#btn-pagination(href='/all-tours?page=' + (+page + 1))
+                        span.material-symbols-outlined arrow_forward_ios
+
+            div.page-info
+                | Page 
+                strong= page 
+                |  of 
+                strong= totalPages

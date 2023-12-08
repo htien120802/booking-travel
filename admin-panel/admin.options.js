@@ -1,9 +1,10 @@
 const AdminBro = require('admin-bro');
 const AdminBroMongoose = require('admin-bro-mongoose');
-const User = require('../models/userModel');
-const Tour = require('../models/tourModel');
-const Review = require('../models/reviewModel');
-const Booking = require('../models/bookingModel');
+const User = require('../admin_models/userModel');
+const Tour = require('../admin_models/tourModel');
+const Review = require('../admin_models/reviewModel');
+const Booking = require('../admin_models/bookingModel');
+const Error = require('../admin_models/errorModel');
 
 const {
   after: uploadAfterHook,
@@ -35,6 +36,14 @@ const options = {
           'role',
           'active',
         ],
+        showProperties: [
+          '_id',
+          'uploadImage',
+          'name',
+          'email',
+          'role',
+          'active',
+        ],
         properties: {
           role: {
             availableValues: [
@@ -47,8 +56,26 @@ const options = {
           passwordChangedAt: {
             isVisible: false,
           },
+          email: {
+            type: 'email',
+          },
+          password: {
+            type: 'password',
+            isVisible: {
+              edit: true,
+              show: false,
+              list: false,
+              filter: false,
+            },
+          },
           passwordConfirm: {
-            isVisible: false,
+            type: 'password',
+            isVisible: {
+              edit: true,
+              show: false,
+              list: false,
+              filter: false,
+            },
           },
           passwordResetToken: {
             isVisible: false,
@@ -105,23 +132,6 @@ const options = {
           'difficulty',
           'secretTour',
           'createdAt',
-        ],
-        editProperties: [
-          'name',
-          'duration',
-          'maxGroupSize',
-          'difficulty',
-          'secretTour',
-          'price',
-          'priceDiscount',
-          'summary',
-          'description',
-          'uploadCover',
-          'uploadImages',
-          'secretTour',
-          // 'startLocation',
-          'locations',
-          'guides',
         ],
         properties: {
           description: {
@@ -198,16 +208,69 @@ const options = {
         },
       },
     },
-    { resource: Booking },
     {
       resource: Review,
       options: {
+        sort: {
+          sortBy: 'createdAt',
+          direction: 'desc',
+        },
+        actions: {
+          new: {
+            isAccessible: false,
+            isVisible: false,
+          },
+        },
         properties: {
           review: {
             type: 'richtext',
             props: {
               rows: 20,
             },
+          },
+          rating: {
+            availableValues: [
+              { value: '1', label: '★' },
+              { value: '2', label: '★★' },
+              { value: '3', label: '★★★' },
+              { value: '4', label: '★★★★' },
+              { value: '5', label: '★★★★★' },
+            ],
+          },
+        },
+      },
+    },
+    {
+      resource: Booking,
+      options: {
+        listProperties: ['_id', 'tour', 'user', 'price', 'paid', 'createdAt'],
+        sort: {
+          sortBy: 'createdAt',
+          direction: 'desc',
+        },
+        actions: {
+          new: {
+            isAccessible: false,
+            isVisible: false,
+          },
+        },
+      },
+    },
+    {
+      resource: Error,
+      options: {
+        listProperties: ['_id', 'status', 'message', 'stack'],
+        parent: {
+          name: 'Errors',
+        },
+        actions: {
+          new: {
+            isAccessible: false,
+            isVisible: false,
+          },
+          edit: {
+            isAccessible: false,
+            isVisible: false,
           },
         },
       },

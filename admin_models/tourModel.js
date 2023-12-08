@@ -3,6 +3,8 @@ const slugify = require('slugify');
 const User = require('./userModel');
 // const validator = require('validator');
 
+mongoose.models = {};
+mongoose.modelSchemas = {};
 const tourSchema = new mongoose.Schema(
   {
     name: {
@@ -150,40 +152,6 @@ tourSchema.pre('save', async function (next) {
   this.guides = await Promise.all(guidesPromises);
   next();
 });
-
-// tourSchema.pre('save', function(next) {
-//   console.log('Will save document...');
-//   next();
-// });
-
-// tourSchema.post('save', function(doc, next) {
-//   console.log(doc);
-//   next();
-// });
-
-// QUERY MIDDLEWARE
-// tourSchema.pre('find', function(next) {
-tourSchema.pre(/^find/, function (next) {
-  // Lấy thông tin guides ngoại trừ passwordChangedAt và __v
-  this.populate({
-    path: 'guides',
-    select: '-__v -passwordChangedAt',
-  });
-  next();
-});
-
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  next();
-});
-
-// AGGREGATION MIDDLEWARE
-// tourSchema.pre('aggregate', function (next) {
-//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-
-//   console.log(this.pipeline());
-//   next();
-// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 

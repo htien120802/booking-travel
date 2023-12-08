@@ -87,7 +87,7 @@ const sendErrorProd = async (err, req, res) => {
     const errorId = await saveError(err);
     return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
-      msg: `${err.message} (${errorId})`,
+      msg: `${err.message}`,
     });
   }
 

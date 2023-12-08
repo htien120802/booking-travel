@@ -15,15 +15,38 @@ exports.getLandingPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getOverview = catchAsync(async (req, res, next) => {
-  // 1) Get tour data from collection
+  // 1) Get page
+  const page = req.query.page || 1; // Default as 1
+
+  // 2) Prepare
+  const size = 6;
+  const skip = (page - 1) * size;
+
+  // 3) Paginate
+  let totalResults;
+  if (req.query.search) {
+    totalResults = await Tour.find({
+      name: { $regex: new RegExp(req.query.search, 'i') },
+    }).countDocuments();
+  } else {
+    totalResults = await Tour.find().countDocuments();
+  }
+
+  const totalPages = Math.ceil(totalResults / size);
+  
   let tours;
-  console.log(req.query.search);
   if (req.query.search) {
     tours = await Tour.find({
       name: { $regex: new RegExp(req.query.search, 'i') },
-    });
+    })
+    .skip(skip)
+    .limit(size)
+    .exec();;
   } else {
-    tours = await Tour.find();
+    tours = await Tour.find()
+    .skip(skip)
+    .limit(size)
+    .exec();;
   }
 
   // 2) Build template
@@ -31,6 +54,8 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   res.status(200).render('overview', {
     title: 'All Tours',
     tours,
+    page,
+    totalPages
   });
 });
 
