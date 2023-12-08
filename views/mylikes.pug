@@ -1,0 +1,46 @@
+extends base
+//- include ./admin/_modal
+
+mixin navItem(link, text, icon, active)
+  li(class=`${active ? 'side-nav--active' : ''}`)
+    a(href=`${link}`)
+      svg
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
+      | #{text}
+
+block content
+  main.main
+    .user-view
+      nav.user-view__menu
+        ul.side-nav
+          +navItem('/me', 'Settings', 'settings')
+          +navItem('/my-likes', 'Likes', 'heart', true)
+          if (user.role === 'user')
+            +navItem('/my-tours', 'My bookings', 'briefcase')
+            +navItem('/my-reviews', 'My reviews', 'star')
+          if (user.role === 'admin')
+            +navItem('/admin-panel', 'Admin Panel', 'users')
+
+
+      .user-view__content
+        .user-view__form-container(style="text-align:center;")
+          h2.heading-secondary.ma-bt-md My likes
+
+        //- .table__container
+        table.content__table(style='width: 70%')
+            thead
+                tr
+                tbody
+                    each like in likes
+                        if like.tour
+                            tr.like__row
+                                td(style='width: 10%').cell-center
+                                    svg.unlike-icon(title='Unlike this tour', tour-id=`${like.tour._id}`)
+                                        use(xlink:href='../img/icons.svg#icon-heart-full')
+                                td(style='width: 30%')
+                                    a(href=`/tour/${like.tour.slug}`).cell-center
+                                        img.tour-image__like(src=`/img/tours/${like.tour.imageCover}`, alt=`${like.tour.name}`)
+                                td.sub-heading
+                                    a(href=`/tour/${like.tour.slug}`).like_tour_link= like.tour.name
+
+                                    

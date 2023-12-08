@@ -23,6 +23,7 @@ router.get(
   viewController.getMyTours,
 );
 router.get('/my-reviews', authController.protect, viewController.getMyReviews);
+router.get('/my-likes', authController.protect, viewController.getMyLikes);
 router.get(
   '/my-reviews/:id/edit',
   authController.protect,

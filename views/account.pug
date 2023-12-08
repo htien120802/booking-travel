@@ -13,6 +13,7 @@ block content
       nav.user-view__menu
         ul.side-nav
           +navItem('/me', 'Settings', 'settings', true)
+          +navItem('/my-likes', 'Likes', 'heart')
           if (user.role === 'user')
             +navItem('/my-tours', 'My bookings', 'briefcase')
             +navItem('/my-reviews', 'My reviews', 'star')

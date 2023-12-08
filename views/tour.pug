@@ -43,6 +43,16 @@ block content
                     +overviewBox('Difficulty', tour.difficulty, 'trending-up')
                     +overviewBox('Participants', `${tour.maxGroupSize} people`, 'user')
                     +overviewBox('Rating', `${tour.ratingsAverage} / 5`, 'star')
+                    +overviewBox('Like', `${tour.likeQuantity}`, 'heart')
+
+                .overview-box__group
+                    span.like-heading Like this tour? &nbsp;
+                        if hasLiked
+                            svg.unlike-icon(title='Unlike this tour', tour-id=`${tour._id}`)
+                                use(xlink:href='../img/icons.svg#icon-heart-full')
+                        else 
+                            svg.like-icon(title='Like this tour', tour-id=`${tour._id}`)
+                                use(xlink:href='../img/icons.svg#icon-heart')
 
                 .overview-box__group
                     h2.heading-secondary.ma-bt-lg Your tour guides
@@ -56,6 +66,7 @@ block content
                             - if (guide.role === 'guide')
                                 span.overview-box__label Tour guide
                             span.overview-box__text= guide.name
+
 
         .description-box
             h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
