@@ -41,6 +41,12 @@ exports.getTour = catchAsync(async (req, res, next) => {
     fields: 'review rating user',
   });
 
+  const environment = process.env.NODE_ENV || 'development';
+  const rootPath =
+    environment === 'production'
+      ? 'https://booking-travel-app-c76d617d3fdf.herokuapp.com'
+      : 'http://localhost:3000';
+
   let isReviewed = true;
 
   let hasLiked = true;
@@ -68,6 +74,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     tour,
     isReviewed,
     hasLiked,
+    rootPath,
   });
 });
 

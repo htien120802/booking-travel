@@ -53,6 +53,18 @@ block content
                         else 
                             svg.like-icon(title='Like this tour', tour-id=`${tour._id}`)
                                 use(xlink:href='../img/icons.svg#icon-heart')
+                    <br>
+                    span.like-heading Or share it? &nbsp;
+                        - const shareLink = rootPath + "/tour/" + tour.slug
+                        a(href=`https://www.facebook.com/sharer/sharer.php?u=${shareLink}` target='popup' onclick=`window.open('https://www.facebook.com/sharer/sharer.php?u=${shareLink}','popup','width=600,height=600'); return false;`)
+                            svg.facebook-icon(title='Like this tour', tour-id=`${tour._id}`)
+                                use(xlink:href='../img/icons.svg#icon-facebook-new')      
+
+                        span.icon-spacing
+                                       
+                        a(href=`https://twitter.com/intent/tweet?url=${shareLink}&hashtags=natours,travel` target='popup' onclick=`window.open('https://twitter.com/intent/tweet?url=${shareLink}&hashtags=natours,travel','popup','width=600,height=600'); return false;`)
+                            svg.twitter-icon(title='Like this tour', tour-id=`${tour._id}`)
+                                use(xlink:href='../img/icons.svg#icon-twitter')
 
                 .overview-box__group
                     h2.heading-secondary.ma-bt-lg Your tour guides

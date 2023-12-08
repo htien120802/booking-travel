@@ -1851,6 +1851,42 @@ body {
   }
 }
 
+.facebook-icon {
+  fill: #1877f2;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: rgb(149, 225, 255);
+  }
+
+  &:active {
+    transform: scale(1.2);
+  }
+}
+
+.twitter-icon {
+  fill: #4da6e9;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: rgb(149, 225, 255);
+  }
+
+  &:active {
+    transform: scale(1.2);
+  }
+}
+
+span.icon-spacing {
+  margin-right: 10px; 
+}
+
 .tour-image__like {
   border-radius: 10px;
   width: 150px;

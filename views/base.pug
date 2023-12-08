@@ -10,6 +10,12 @@ html
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0')
 
+      meta(property='og:url' content='https://booking-travel-app-c76d617d3fdf.herokuapp.com')
+      meta(property='og:type' content='website')
+      meta(property='og:title' content='Natours')
+      meta(property='og:description' content='Booking travel tour')
+      meta(property='og:image' content='https://github.com/lgope/Natours/blob/master/public/img/logo-green-round.png?raw=true')
+
       title Natours | #{title}
 
   body(data-alert=`${alert ? alert : ''}`)
@@ -30,3 +36,13 @@ html
     script(src='https://js.stripe.com/v3/fingerprinted/js/checkout-app-init-a5a0faa0dfbc3c19f6ffe2b9e1dc6b6e.js')
     //- script(scr='/js/stripe/v3.js')
     script(src='/js/bundle.js')
+
+    #fb-root
+      script.
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
