@@ -8,6 +8,7 @@ import { createUser, updateUser, deleteUser } from './user';
 import { createReview, deleteReview, updateReview } from './review';
 import { deleteBooking } from './booking';
 import { bookTour } from './stripe';
+import { doLike, doUnlike } from './like';
 import { showAlert } from './alerts';
 
 // DOM ELEMENTS
@@ -22,7 +23,9 @@ const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 const submitReviewBtn = document.getElementById('btn-submit-review');
 const updateReviewBtn = document.getElementById('btn-submit-edit-review');
-const searchBtn  = document.querySelector('.icon-search');
+const searchBtn = document.querySelector('.icon-search');
+const likeBtn = document.querySelector('.like-icon');
+const unlikeBtn = document.querySelector('.unlike-icon');
 
 // const userDataAddFormInAdmin = document.querySelector('.form-user-add-data');
 // const userDataFormInAdmin = document.querySelector('.form-user-data-admin');
@@ -137,18 +140,31 @@ if (updateReviewBtn)
     updateReview(reviewId, { rating, review });
   });
 
-  if (searchBtn)
-    searchBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const keyword = document.getElementById('search').value;
-      window.setTimeout(() => {
-        location.assign(`/all-tours?search=${keyword}`);
-      }, 1000);
-    });
+if (searchBtn)
+  searchBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const keyword = document.getElementById('search').value;
+    window.setTimeout(() => {
+      location.assign(`/all-tours?search=${keyword}`);
+    }, 1000);
+  });
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 20);
 
+if (likeBtn)
+  likeBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const tourId = likeBtn.getAttribute('tour-id');
+    doLike(tourId);
+  });
+
+if (unlikeBtn)
+  unlikeBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const tourId = unlikeBtn.getAttribute('tour-id');
+    doUnlike(tourId);
+  });
 ////////// ADMIN
 // if (btnDeleteModel) {
 //   btnDeleteModel.forEach((btn) => {

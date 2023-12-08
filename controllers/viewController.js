@@ -1,5 +1,6 @@
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
+const Like = require('../models/likeModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
@@ -19,7 +20,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   console.log(req.query.search);
   if (req.query.search) {
     tours = await Tour.find({
-      name: { $regex: new RegExp(req.query.search, 'i')},
+      name: { $regex: new RegExp(req.query.search, 'i') },
     });
   } else {
     tours = await Tour.find();
@@ -42,6 +43,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
   let isReviewed = true;
 
+  let hasLiked = true;
+
   if (!tour) {
     return next(new AppError('There is no tour with that name.', 404));
   } else {
@@ -52,16 +55,28 @@ exports.getTour = catchAsync(async (req, res, next) => {
         const review = await Review.findOne({ tour: tour, user: user });
         if (!review) isReviewed = false;
       }
+
+      const like = await Like.findOne({ tour: tour, user: user }); // find User then
+      if (!like) hasLiked = false;
     }
   }
 
-  console.log(isReviewed);
   // 2) Build template
   // 3) Render template using data from 1)
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
     isReviewed,
+    hasLiked,
+  });
+});
+
+exports.getMyLikes = catchAsync(async (req, res, next) => {
+  const likes = await Like.find({ user: req.user.id }).populate('tour').exec();
+
+  res.status(200).render('mylikes', {
+    title: 'My Likes',
+    likes,
   });
 });
 

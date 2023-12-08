@@ -17,6 +17,7 @@ dotenv.config({ path: './config.env' });
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const likeRouter = require('./routes/likeRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
@@ -84,6 +85,7 @@ app.use(
   hpp({
     whitelist: [
       'duration',
+      'likeQuantity',
       'ratingsQuantity',
       'ratingsAverage',
       'maxGroupSize',
@@ -104,11 +106,18 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/likes', likeRouter);
 app.use('/api/v1/bookings', bookingRouter);
 
 const authController = require('./controllers/authController');
-app.use(admin.options.rootPath, authController.protect, authController.restrictTo('admin'), router);
+app.use(
+  admin.options.rootPath,
+  authController.protect,
+  authController.restrictTo('admin'),
+  router,
+);
 
+app.use('/public/img', express.static('public/img'));
 app.use('/public/img/users', express.static('public/img/users'));
 app.use('/public/img/tours', express.static('public/img/tours'));
 
