@@ -36,6 +36,14 @@ const options = {
           'role',
           'active',
         ],
+        showProperties: [
+          '_id',
+          'uploadImage',
+          'name',
+          'email',
+          'role',
+          'active',
+        ],
         properties: {
           role: {
             availableValues: [
@@ -203,6 +211,16 @@ const options = {
     {
       resource: Review,
       options: {
+        sort: {
+          sortBy: 'createdAt',
+          direction: 'desc',
+        },
+        actions: {
+          new: {
+            isAccessible: false,
+            isVisible: false,
+          },
+        },
         properties: {
           review: {
             type: 'richtext',
@@ -226,6 +244,16 @@ const options = {
       resource: Booking,
       options: {
         listProperties: ['_id', 'tour', 'user', 'price', 'paid', 'createdAt'],
+        sort: {
+          sortBy: 'createdAt',
+          direction: 'desc',
+        },
+        actions: {
+          new: {
+            isAccessible: false,
+            isVisible: false,
+          },
+        },
       },
     },
     {
