@@ -13,9 +13,12 @@ block content
       nav.user-view__menu
         ul.side-nav
           +navItem('/me', 'Settings', 'settings')
+          +navItem('/my-likes', 'Likes', 'heart')
           if (user.role === 'user')
             +navItem('/my-tours', 'My bookings', 'briefcase', true)
             +navItem('/my-reviews', 'My reviews', 'star')
+          if (user.role === 'admin')
+            +navItem('/admin-panel', 'Admin Panel', 'users')
 
 
       .user-view__content

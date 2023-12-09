@@ -33,20 +33,17 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   }
 
   const totalPages = Math.ceil(totalResults / size);
-  
+
   let tours;
   if (req.query.search) {
     tours = await Tour.find({
       name: { $regex: new RegExp(req.query.search, 'i') },
     })
-    .skip(skip)
-    .limit(size)
-    .exec();;
+      .skip(skip)
+      .limit(size)
+      .exec();
   } else {
-    tours = await Tour.find()
-    .skip(skip)
-    .limit(size)
-    .exec();;
+    tours = await Tour.find().skip(skip).limit(size).exec();
   }
 
   // 2) Build template
@@ -55,7 +52,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     title: 'All Tours',
     tours,
     page,
-    totalPages
+    totalPages,
   });
 });
 
@@ -66,9 +63,9 @@ exports.getTour = catchAsync(async (req, res, next) => {
     fields: 'review rating user',
   });
 
-  const environment = process.env.NODE_ENV || 'development';
+  const environment = process.env.NODE_ENV
   const rootPath =
-    environment === 'production'
+    environment !== 'production'
       ? 'https://booking-travel-app-c76d617d3fdf.herokuapp.com'
       : 'http://localhost:3000';
 
